@@ -77,7 +77,10 @@ const DifficultySelector: React.FC<Props> = ({
 
       <div className="table-selector">
         <h3>題庫選擇</h3>
-        <p>預設全選，可取消還沒學會的乘法，例如 6 或 8。</p>
+        <p>
+          此處僅限制第一個數字 (第幾的乘法)，預設 2～9 全選；例如取消 3 就不會出現 3×5。
+          1 的乘法不在題庫列表。
+        </p>
         <div className="table-grid">
           {MULTIPLICATION_TABLES.map((table) => {
             const checked = selectedTables.includes(table);

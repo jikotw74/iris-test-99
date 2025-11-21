@@ -2,9 +2,9 @@ import type { Question } from './types';
 import { MULTIPLICATION_TABLES } from './types';
 
 export const generateQuestion = (allowedTables: number[] = [...MULTIPLICATION_TABLES]): Question => {
-  const pool = allowedTables.length ? allowedTables : [...MULTIPLICATION_TABLES];
-  const num1 = pool[Math.floor(Math.random() * pool.length)];
-  const num2 = pool[Math.floor(Math.random() * pool.length)];
+  const firstNumberPool = allowedTables.length ? allowedTables : [...MULTIPLICATION_TABLES];
+  const num1 = firstNumberPool[Math.floor(Math.random() * firstNumberPool.length)];
+  const num2 = Math.floor(Math.random() * 9) + 1;
   return {
     num1,
     num2,

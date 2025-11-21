@@ -10,7 +10,7 @@ export interface Question {
   answer: number;
 }
 
-export const MULTIPLICATION_TABLES = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+export const MULTIPLICATION_TABLES = [2, 3, 4, 5, 6, 7, 8, 9] as const;
 export type MultiplicationTable = (typeof MULTIPLICATION_TABLES)[number];
 
 export interface GameState {
