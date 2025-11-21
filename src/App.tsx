@@ -12,6 +12,7 @@ interface PenaltyState {
   question: Question;
   sequence: string[];
   input: string;
+  isSequenceComplete: boolean;
 }
 
 function App() {
@@ -77,7 +78,7 @@ function App() {
 
   const startPenalty = useCallback((question: Question) => {
     const sequence = `${question.num1}${question.num2}${question.answer}`.split('');
-    setPenaltyState({ question, sequence, input: '' });
+    setPenaltyState({ question, sequence, input: '', isSequenceComplete: false });
     setPenaltyError('');
     setUserInput('');
     clearQuestionTimer();
@@ -93,9 +94,8 @@ function App() {
 
   const handlePenaltyDigit = useCallback((digit: string) => {
     if (!/^[0-9]$/.test(digit)) return;
-    let shouldFinish = false;
     setPenaltyState((prev) => {
-      if (!prev) return prev;
+      if (!prev || prev.isSequenceComplete) return prev;
       const expected = prev.sequence[prev.input.length];
       if (digit !== expected) {
         setPenaltyError('輸入錯誤，請依順序輸入正確算式');
@@ -103,26 +103,31 @@ function App() {
       }
       const nextInput = prev.input + digit;
       setPenaltyError('');
-      if (nextInput.length === prev.sequence.length) {
-        shouldFinish = true;
-      }
-      return { ...prev, input: nextInput };
+      const isSequenceComplete = nextInput.length === prev.sequence.length;
+      return { ...prev, input: nextInput, isSequenceComplete };
     });
-    if (shouldFinish) {
-      finishPenalty();
-    }
-  }, [finishPenalty]);
+  }, []);
 
   const handlePenaltyBackspace = useCallback(() => {
     setPenaltyState((prev) => {
       if (!prev || prev.input.length === 0) return prev;
-      return { ...prev, input: prev.input.slice(0, -1) };
+      const nextInput = prev.input.slice(0, -1);
+      return { ...prev, input: nextInput, isSequenceComplete: nextInput.length === prev.sequence.length };
     });
     setPenaltyError('');
   }, []);
 
+  const handlePenaltySubmit = useCallback(() => {
+    if (!penaltyState) return;
+    if (!penaltyState.isSequenceComplete) {
+      setPenaltyError('請先完成整段輸入');
+      return;
+    }
+    finishPenalty();
+  }, [finishPenalty, penaltyState]);
+
   useEffect(() => {
-    if (!isPlaying || timeRemaining <= 0 || isPenaltyActive) return;
+    if (!isPlaying || timeRemaining <= 0) return;
 
     const timer = setInterval(() => {
       setTimeRemaining((prev) => {
@@ -136,7 +141,7 @@ function App() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isPlaying, timeRemaining, isPenaltyActive]);
+  }, [isPlaying, timeRemaining]);
 
   useEffect(() => {
     if (!isPlaying || !difficulty) {
@@ -154,7 +159,7 @@ function App() {
   }, [isPlaying, difficulty, advanceQuestion, clearQuestionTimer]);
 
   useEffect(() => {
-    if (!isPlaying || !difficulty || isPenaltyActive) return;
+    if (!isPlaying || !difficulty) return;
 
     const intervalId = window.setInterval(() => {
       if (!questionDeadlineRef.current) return;
@@ -165,7 +170,7 @@ function App() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [isPlaying, difficulty, isPenaltyActive]);
+  }, [isPlaying, difficulty]);
 
   const handleSelectDifficulty = (selectedDifficulty: Difficulty) => {
     if (selectedTables.length === 0) {
@@ -243,8 +248,10 @@ function App() {
           sequence={penaltyState.sequence}
           input={penaltyState.input}
           error={penaltyError}
+          canSubmit={penaltyState.isSequenceComplete}
           onDigit={handlePenaltyDigit}
           onBackspace={handlePenaltyBackspace}
+          onSubmit={handlePenaltySubmit}
         />
       )}
     </>

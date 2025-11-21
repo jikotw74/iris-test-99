@@ -102,3 +102,22 @@
 .penalty-key.backspace:hover {
   background: #ff5252;
 }
+
+.penalty-submit {
+  margin-top: 1.25rem;
+  width: 100%;
+  padding: 0.95rem 1.25rem;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #646cff, #7c4dff);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.penalty-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

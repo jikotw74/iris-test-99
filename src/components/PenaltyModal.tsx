@@ -7,8 +7,10 @@ interface Props {
   sequence: string[];
   input: string;
   error: string;
+  canSubmit: boolean;
   onDigit: (digit: string) => void;
   onBackspace: () => void;
+  onSubmit: () => void;
 }
 
 const keypadNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
@@ -18,8 +20,10 @@ const PenaltyModal: React.FC<Props> = ({
   sequence,
   input,
   error,
+  canSubmit,
   onDigit,
   onBackspace,
+  onSubmit,
 }) => {
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -29,6 +33,9 @@ const PenaltyModal: React.FC<Props> = ({
       } else if (event.key === 'Backspace') {
         event.preventDefault();
         onBackspace();
+      } else if (event.key === 'Enter' && canSubmit) {
+        event.preventDefault();
+        onSubmit();
       }
     };
 
@@ -36,7 +43,7 @@ const PenaltyModal: React.FC<Props> = ({
     return () => {
       window.removeEventListener('keydown', handleKey);
     };
-  }, [onDigit, onBackspace]);
+  }, [onDigit, onBackspace, onSubmit, canSubmit]);
 
   return (
     <div className="penalty-modal-overlay" role="dialog" aria-modal="true">
@@ -46,7 +53,7 @@ const PenaltyModal: React.FC<Props> = ({
           {question.num1} × {question.num2} = {question.answer}
         </div>
         <div className="penalty-instruction">
-          依序輸入：{sequence.join(' ')}
+          依序輸入：{sequence.join(' ')}，完成後按 Enter 或按下「完成送出」繼續作答。
         </div>
 
         <div className="penalty-boxes">
@@ -80,6 +87,15 @@ const PenaltyModal: React.FC<Props> = ({
             ← 清除
           </button>
         </div>
+
+        <button
+          type="button"
+          className="penalty-submit"
+          onClick={onSubmit}
+          disabled={!canSubmit}
+        >
+          完成送出
+        </button>
       </div>
     </div>
   );
