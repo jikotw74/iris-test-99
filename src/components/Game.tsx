@@ -12,6 +12,7 @@ interface Props {
   onSubmit: () => void;
   questionCountdownMs: number;
   questionIntervalMs: number;
+  isPenaltyActive: boolean;
 }
 
 const Game: React.FC<Props> = ({
@@ -23,8 +24,10 @@ const Game: React.FC<Props> = ({
   onSubmit,
   questionCountdownMs,
   questionIntervalMs,
+  isPenaltyActive,
 }) => {
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
+    if (isPenaltyActive) return;
     if (e.key >= '0' && e.key <= '9') {
       onInputChange(userInput + e.key);
     } else if (e.key === 'Backspace') {
@@ -32,14 +35,15 @@ const Game: React.FC<Props> = ({
     } else if (e.key === 'Enter') {
       onSubmit();
     }
-  }, [userInput, onInputChange, onSubmit]);
+  }, [userInput, onInputChange, onSubmit, isPenaltyActive]);
 
   useEffect(() => {
+    if (isPenaltyActive) return;
     window.addEventListener('keydown', handleKeyPress);
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [handleKeyPress]);
+  }, [handleKeyPress, isPenaltyActive]);
 
   const handleNumberClick = (num: string) => {
     onInputChange(userInput + num);
@@ -80,6 +84,7 @@ const Game: React.FC<Props> = ({
         onNumberClick={handleNumberClick}
         onBackspace={handleBackspace}
         onSubmit={onSubmit}
+        disabled={isPenaltyActive}
       />
 
       <div className="hint">

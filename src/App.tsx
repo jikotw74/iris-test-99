@@ -2,10 +2,17 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import DifficultySelector from './components/DifficultySelector';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
+import PenaltyModal from './components/PenaltyModal';
 import type { Difficulty, Question } from './types';
 import { MULTIPLICATION_TABLES } from './types';
 import { generateQuestion, checkAnswer } from './utils';
 import './App.css';
+
+interface PenaltyState {
+  question: Question;
+  sequence: string[];
+  input: string;
+}
 
 function App() {
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
@@ -17,8 +24,11 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [questionCountdownMs, setQuestionCountdownMs] = useState(0);
   const [selectedTables, setSelectedTables] = useState<number[]>(() => [...MULTIPLICATION_TABLES]);
+  const [penaltyState, setPenaltyState] = useState<PenaltyState | null>(null);
+  const [penaltyError, setPenaltyError] = useState('');
   const questionTimerRef = useRef<number | null>(null);
   const questionDeadlineRef = useRef<number | null>(null);
+  const isPenaltyActive = Boolean(penaltyState);
 
   const handleToggleTable = (table: number) => {
     setSelectedTables((prev) => {
@@ -65,8 +75,54 @@ function App() {
     }, difficulty.questionSpeed);
   }, [difficulty, isPlaying, resetQuestionCountdown, clearQuestionTimer, selectedTables]);
 
+  const startPenalty = useCallback((question: Question) => {
+    const sequence = `${question.num1}${question.num2}${question.answer}`.split('');
+    setPenaltyState({ question, sequence, input: '' });
+    setPenaltyError('');
+    setUserInput('');
+    clearQuestionTimer();
+    questionDeadlineRef.current = null;
+    setQuestionCountdownMs(0);
+  }, [clearQuestionTimer]);
+
+  const finishPenalty = useCallback(() => {
+    setPenaltyState(null);
+    setPenaltyError('');
+    advanceQuestion();
+  }, [advanceQuestion]);
+
+  const handlePenaltyDigit = useCallback((digit: string) => {
+    if (!/^[0-9]$/.test(digit)) return;
+    let shouldFinish = false;
+    setPenaltyState((prev) => {
+      if (!prev) return prev;
+      const expected = prev.sequence[prev.input.length];
+      if (digit !== expected) {
+        setPenaltyError('輸入錯誤，請依順序輸入正確算式');
+        return prev;
+      }
+      const nextInput = prev.input + digit;
+      setPenaltyError('');
+      if (nextInput.length === prev.sequence.length) {
+        shouldFinish = true;
+      }
+      return { ...prev, input: nextInput };
+    });
+    if (shouldFinish) {
+      finishPenalty();
+    }
+  }, [finishPenalty]);
+
+  const handlePenaltyBackspace = useCallback(() => {
+    setPenaltyState((prev) => {
+      if (!prev || prev.input.length === 0) return prev;
+      return { ...prev, input: prev.input.slice(0, -1) };
+    });
+    setPenaltyError('');
+  }, []);
+
   useEffect(() => {
-    if (!isPlaying || timeRemaining <= 0) return;
+    if (!isPlaying || timeRemaining <= 0 || isPenaltyActive) return;
 
     const timer = setInterval(() => {
       setTimeRemaining((prev) => {
@@ -80,7 +136,7 @@ function App() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isPlaying, timeRemaining]);
+  }, [isPlaying, timeRemaining, isPenaltyActive]);
 
   useEffect(() => {
     if (!isPlaying || !difficulty) {
@@ -98,7 +154,7 @@ function App() {
   }, [isPlaying, difficulty, advanceQuestion, clearQuestionTimer]);
 
   useEffect(() => {
-    if (!isPlaying || !difficulty) return;
+    if (!isPlaying || !difficulty || isPenaltyActive) return;
 
     const intervalId = window.setInterval(() => {
       if (!questionDeadlineRef.current) return;
@@ -109,7 +165,7 @@ function App() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [isPlaying, difficulty]);
+  }, [isPlaying, difficulty, isPenaltyActive]);
 
   const handleSelectDifficulty = (selectedDifficulty: Difficulty) => {
     if (selectedTables.length === 0) {
@@ -122,16 +178,20 @@ function App() {
     setIsGameOver(false);
     setUserInput('');
     setQuestionCountdownMs(selectedDifficulty.questionSpeed);
+    setPenaltyState(null);
+    setPenaltyError('');
   };
 
   const handleSubmit = () => {
-    if (!currentQuestion || !userInput) return;
+    if (!currentQuestion || !userInput || isPenaltyActive) return;
 
     if (checkAnswer(currentQuestion, userInput)) {
       setScore((prev) => prev + 1);
+      advanceQuestion();
+      return;
     }
 
-    advanceQuestion();
+    startPenalty(currentQuestion);
   };
 
   const handleRestart = () => {
@@ -145,6 +205,8 @@ function App() {
     setQuestionCountdownMs(0);
     questionDeadlineRef.current = null;
     clearQuestionTimer();
+    setPenaltyState(null);
+    setPenaltyError('');
   };
 
   if (isGameOver) {
@@ -163,16 +225,29 @@ function App() {
   }
 
   return (
-    <Game
-      question={currentQuestion}
-      userInput={userInput}
-      score={score}
-      timeRemaining={timeRemaining}
-      onInputChange={setUserInput}
-      onSubmit={handleSubmit}
-      questionCountdownMs={questionCountdownMs}
-      questionIntervalMs={difficulty.questionSpeed}
-    />
+    <>
+      <Game
+        question={currentQuestion}
+        userInput={userInput}
+        score={score}
+        timeRemaining={timeRemaining}
+        onInputChange={setUserInput}
+        onSubmit={handleSubmit}
+        questionCountdownMs={questionCountdownMs}
+        questionIntervalMs={difficulty.questionSpeed}
+        isPenaltyActive={isPenaltyActive}
+      />
+      {penaltyState && (
+        <PenaltyModal
+          question={penaltyState.question}
+          sequence={penaltyState.sequence}
+          input={penaltyState.input}
+          error={penaltyError}
+          onDigit={handlePenaltyDigit}
+          onBackspace={handlePenaltyBackspace}
+        />
+      )}
+    </>
   );
 }
 

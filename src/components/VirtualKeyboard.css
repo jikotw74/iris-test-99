@@ -55,3 +55,13 @@
 .keyboard-button.action {
   font-size: 1rem;
 }
+
+.keyboard-button:disabled,
+.keyboard-button:disabled:hover,
+.keyboard-button:disabled:active {
+  background-color: #1a1a1a;
+  border-color: #3a3a3a;
+  color: #555;
+  cursor: not-allowed;
+  transform: none;
+}
