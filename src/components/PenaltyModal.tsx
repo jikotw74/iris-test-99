@@ -13,7 +13,7 @@ interface Props {
   onSubmit: () => void;
 }
 
-const keypadNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+const keypadNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 const PenaltyModal: React.FC<Props> = ({
   question,
@@ -53,7 +53,7 @@ const PenaltyModal: React.FC<Props> = ({
           {question.num1} × {question.num2} = {question.answer}
         </div>
         <div className="penalty-instruction">
-          依序輸入：{sequence.join(' ')}，完成後按 Enter 或按下「完成送出」繼續作答。
+          依序輸入：{sequence.join(' ')}，完成後按 Enter 或按下「✓ 送出」繼續作答。
         </div>
 
         <div className="penalty-boxes">
@@ -72,30 +72,34 @@ const PenaltyModal: React.FC<Props> = ({
 
         {error && <div className="penalty-error">{error}</div>}
 
-        <div className="penalty-keypad">
-          {keypadNumbers.map((num) => (
-            <button
-              key={num}
-              type="button"
-              className="penalty-key"
-              onClick={() => onDigit(num)}
-            >
-              {num}
+        <div className="penalty-keyboard">
+          <div className="penalty-keyboard-grid">
+            {keypadNumbers.map((num) => (
+              <button
+                key={num}
+                type="button"
+                className="penalty-key"
+                onClick={() => onDigit(num)}
+              >
+                {num}
+              </button>
+            ))}
+            <button type="button" className="penalty-key action backspace" onClick={onBackspace}>
+              ← 刪除
             </button>
-          ))}
-          <button type="button" className="penalty-key backspace" onClick={onBackspace}>
-            ← 清除
-          </button>
+            <button type="button" className="penalty-key zero" onClick={() => onDigit('0')}>
+              0
+            </button>
+            <button
+              type="button"
+              className="penalty-key action submit"
+              onClick={onSubmit}
+              disabled={!canSubmit}
+            >
+              ✓ 送出
+            </button>
+          </div>
         </div>
-
-        <button
-          type="button"
-          className="penalty-submit"
-          onClick={onSubmit}
-          disabled={!canSubmit}
-        >
-          完成送出
-        </button>
       </div>
     </div>
   );

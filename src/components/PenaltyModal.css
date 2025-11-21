@@ -14,7 +14,7 @@
   border: 1px solid #2f2f3a;
   border-radius: 16px;
   padding: 2rem;
-  width: min(520px, 100%);
+  width: min(520px, calc(100% - 1.5rem));
   text-align: center;
   box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
 }
@@ -35,6 +35,7 @@
 .penalty-instruction {
   margin-bottom: 1.5rem;
   color: #c1c2d6;
+  line-height: 1.4;
 }
 
 .penalty-boxes {
@@ -67,57 +68,91 @@
   margin-bottom: 1rem;
 }
 
-.penalty-keypad {
+.penalty-keyboard {
+  margin-top: 1.25rem;
+}
+
+.penalty-keyboard-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(60px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(3, minmax(70px, 1fr));
+  gap: 0.75rem;
 }
 
 .penalty-key {
   padding: 0.85rem 0;
   border-radius: 8px;
-  border: 1px solid #646cff;
+  border: 2px solid #646cff;
   background: #252536;
   color: #f8f9fa;
   font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s, transform 0.15s;
 }
 
 .penalty-key:hover {
   background: #646cff;
-  transform: translateY(-1px);
+  transform: scale(1.03);
 }
 
 .penalty-key:active {
-  transform: translateY(1px);
+  transform: scale(0.98);
 }
 
-.penalty-key.backspace {
-  grid-column: span 5;
+.penalty-key.zero {
+  grid-column: 2;
+}
+
+.penalty-key.action {
+  font-size: 1rem;
+}
+
+.penalty-key.action.backspace {
   background: #ff6b6b;
   border-color: #ff6b6b;
 }
 
-.penalty-key.backspace:hover {
+.penalty-key.action.backspace:hover {
   background: #ff5252;
 }
 
-.penalty-submit {
-  margin-top: 1.25rem;
-  width: 100%;
-  padding: 0.95rem 1.25rem;
-  border-radius: 10px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  background: linear-gradient(90deg, #646cff, #7c4dff);
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  transition: opacity 0.2s;
+.penalty-key.action.submit {
+  background: #51cf66;
+  border-color: #51cf66;
 }
 
-.penalty-submit:disabled {
-  opacity: 0.4;
+.penalty-key.action.submit:hover {
+  background: #40c057;
+}
+
+.penalty-key:disabled,
+.penalty-key:disabled:hover,
+.penalty-key:disabled:active {
+  background: #1f1f2c;
+  border-color: #3a3a4d;
+  color: #666c85;
   cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 480px) {
+  .penalty-modal {
+    padding: 1.5rem 1.25rem;
+    width: calc(100% - 1rem);
+  }
+
+  .penalty-keyboard-grid {
+    grid-template-columns: repeat(3, minmax(60px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .penalty-key {
+    padding: 0.75rem 0;
+    font-size: 1rem;
+  }
+
+  .penalty-box {
+    width: 42px;
+    height: 50px;
+  }
 }
