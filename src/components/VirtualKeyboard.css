@@ -4,9 +4,9 @@
 
 .keyboard-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0.5rem;
-  max-width: 500px;
+  grid-template-columns: repeat(3, minmax(70px, 1fr));
+  gap: 0.75rem;
+  max-width: 360px;
   margin: 0 auto;
 }
 
@@ -46,4 +46,12 @@
 
 .keyboard-button.submit:hover {
   background-color: #40c057;
+}
+
+.keyboard-button.zero {
+  grid-column: 2;
+}
+
+.keyboard-button.action {
+  font-size: 1rem;
 }

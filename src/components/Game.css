@@ -51,6 +51,33 @@
   max-width: 300px;
 }
 
+.question-progress {
+  margin: 1.5rem auto 0;
+  max-width: 360px;
+  text-align: left;
+}
+
+.progress-label {
+  font-size: 0.95rem;
+  color: #ddd;
+  margin-bottom: 0.35rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background-color: #2a2a2a;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid #3a3a3a;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #40c057, #82c91e);
+  transition: width 0.1s linear;
+}
+
 .hint {
   margin-top: 2rem;
   color: #888;

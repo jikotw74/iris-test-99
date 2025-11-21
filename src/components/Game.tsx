@@ -10,6 +10,8 @@ interface Props {
   timeRemaining: number;
   onInputChange: (input: string) => void;
   onSubmit: () => void;
+  questionCountdownMs: number;
+  questionIntervalMs: number;
 }
 
 const Game: React.FC<Props> = ({
@@ -19,6 +21,8 @@ const Game: React.FC<Props> = ({
   timeRemaining,
   onInputChange,
   onSubmit,
+  questionCountdownMs,
+  questionIntervalMs,
 }) => {
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     if (e.key >= '0' && e.key <= '9') {
@@ -45,6 +49,11 @@ const Game: React.FC<Props> = ({
     onInputChange(userInput.slice(0, -1));
   };
 
+  const countdownSeconds = Math.max(0, Math.ceil(questionCountdownMs / 1000));
+  const progressPercent = questionIntervalMs
+    ? Math.min(100, Math.max(0, (questionCountdownMs / questionIntervalMs) * 100))
+    : 0;
+
   return (
     <div className="game">
       <div className="game-header">
@@ -58,6 +67,12 @@ const Game: React.FC<Props> = ({
         </div>
         <div className="answer-input">
           {userInput || '_'}
+        </div>
+        <div className="question-progress">
+          <div className="progress-label">下題倒數 {countdownSeconds} 秒</div>
+          <div className="progress-bar" role="progressbar" aria-valuenow={progressPercent} aria-valuemin={0} aria-valuemax={100}>
+            <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+          </div>
         </div>
       </div>
 

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const VirtualKeyboard: React.FC<Props> = ({ onNumberClick, onBackspace, onSubmit }) => {
-  const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+  const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
   return (
     <div className="virtual-keyboard">
@@ -23,13 +23,19 @@ const VirtualKeyboard: React.FC<Props> = ({ onNumberClick, onBackspace, onSubmit
           </button>
         ))}
         <button
-          className="keyboard-button backspace"
+          className="keyboard-button backspace action"
           onClick={onBackspace}
         >
           ← 刪除
         </button>
         <button
-          className="keyboard-button submit"
+          className="keyboard-button zero"
+          onClick={() => onNumberClick('0')}
+        >
+          0
+        </button>
+        <button
+          className="keyboard-button submit action"
           onClick={onSubmit}
         >
           ✓ 送出

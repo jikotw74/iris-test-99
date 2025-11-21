@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import DifficultySelector from './components/DifficultySelector';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
@@ -14,7 +14,41 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [userInput, setUserInput] = useState('');
+  const [questionCountdownMs, setQuestionCountdownMs] = useState(0);
   const questionTimerRef = useRef<number | null>(null);
+  const questionDeadlineRef = useRef<number | null>(null);
+
+  const clearQuestionTimer = useCallback(() => {
+    if (questionTimerRef.current) {
+      clearTimeout(questionTimerRef.current);
+      questionTimerRef.current = null;
+    }
+  }, []);
+
+  const resetQuestionCountdown = useCallback(() => {
+    if (!difficulty) return;
+    questionDeadlineRef.current = Date.now() + difficulty.questionSpeed;
+    setQuestionCountdownMs(difficulty.questionSpeed);
+  }, [difficulty]);
+
+  const advanceQuestion = useCallback(function advanceQuestionImpl() {
+    setCurrentQuestion(generateQuestion());
+    setUserInput('');
+
+    if (!difficulty || !isPlaying) {
+      clearQuestionTimer();
+      questionDeadlineRef.current = null;
+      setQuestionCountdownMs(0);
+      return;
+    }
+
+    resetQuestionCountdown();
+
+    clearQuestionTimer();
+    questionTimerRef.current = window.setTimeout(() => {
+      advanceQuestionImpl();
+    }, difficulty.questionSpeed);
+  }, [difficulty, isPlaying, resetQuestionCountdown, clearQuestionTimer]);
 
   useEffect(() => {
     if (!isPlaying || timeRemaining <= 0) return;
@@ -35,28 +69,30 @@ function App() {
 
   useEffect(() => {
     if (!isPlaying || !difficulty) {
-      // Cleanup timer when game stops
-      if (questionTimerRef.current) {
-        clearInterval(questionTimerRef.current);
-        questionTimerRef.current = null;
-      }
+      clearQuestionTimer();
+      questionDeadlineRef.current = null;
+      setQuestionCountdownMs(0);
       return;
     }
 
-    const nextQuestion = () => {
-      setCurrentQuestion(generateQuestion());
-      setUserInput('');
-    };
-
-    nextQuestion();
-
-    questionTimerRef.current = setInterval(nextQuestion, difficulty.questionSpeed);
+    advanceQuestion();
 
     return () => {
-      if (questionTimerRef.current) {
-        clearInterval(questionTimerRef.current);
-        questionTimerRef.current = null;
-      }
+      clearQuestionTimer();
+    };
+  }, [isPlaying, difficulty, advanceQuestion, clearQuestionTimer]);
+
+  useEffect(() => {
+    if (!isPlaying || !difficulty) return;
+
+    const intervalId = window.setInterval(() => {
+      if (!questionDeadlineRef.current) return;
+      const remaining = Math.max(0, questionDeadlineRef.current - Date.now());
+      setQuestionCountdownMs(remaining);
+    }, 100);
+
+    return () => {
+      clearInterval(intervalId);
     };
   }, [isPlaying, difficulty]);
 
@@ -67,6 +103,7 @@ function App() {
     setIsPlaying(true);
     setIsGameOver(false);
     setUserInput('');
+    setQuestionCountdownMs(selectedDifficulty.questionSpeed);
   };
 
   const handleSubmit = () => {
@@ -76,8 +113,7 @@ function App() {
       setScore((prev) => prev + 1);
     }
 
-    setCurrentQuestion(generateQuestion());
-    setUserInput('');
+    advanceQuestion();
   };
 
   const handleRestart = () => {
@@ -88,6 +124,9 @@ function App() {
     setIsPlaying(false);
     setIsGameOver(false);
     setUserInput('');
+    setQuestionCountdownMs(0);
+    questionDeadlineRef.current = null;
+    clearQuestionTimer();
   };
 
   if (isGameOver) {
@@ -106,6 +145,8 @@ function App() {
       timeRemaining={timeRemaining}
       onInputChange={setUserInput}
       onSubmit={handleSubmit}
+      questionCountdownMs={questionCountdownMs}
+      questionIntervalMs={difficulty.questionSpeed}
     />
   );
 }
