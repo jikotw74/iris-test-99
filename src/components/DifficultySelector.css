@@ -22,6 +22,65 @@
   flex-wrap: wrap;
 }
 
+.custom-difficulty {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: #151515;
+  border: 1px solid #2f2f3a;
+  border-radius: 12px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.custom-difficulty h3 {
+  margin: 0 0 1rem;
+  color: #f8f9fa;
+}
+
+.custom-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.custom-form label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #ddd;
+}
+
+.custom-form input {
+  margin-top: 0.35rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #3a3a3a;
+  background: #0d0d12;
+  color: #f8f9fa;
+  font-size: 1rem;
+}
+
+.custom-form input:focus {
+  outline: none;
+  border-color: #646cff;
+  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.3);
+}
+
+.custom-error {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+}
+
+.custom-submit {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: linear-gradient(90deg, #646cff, #7c4dff);
+  border: none;
+}
+
 .difficulty-button {
   padding: 2rem 3rem;
   font-size: 1.2rem;

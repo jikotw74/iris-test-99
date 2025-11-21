@@ -21,7 +21,7 @@ export interface GameState {
 }
 
 export const DIFFICULTIES: Difficulty[] = [
-  { name: '簡單', timeLimit: 120, questionSpeed: 5000 },
-  { name: '普通', timeLimit: 90, questionSpeed: 3000 },
-  { name: '困難', timeLimit: 60, questionSpeed: 2000 },
+  { name: '簡單', timeLimit: 120, questionSpeed: 15000 },
+  { name: '普通', timeLimit: 90, questionSpeed: 10000 },
+  { name: '困難', timeLimit: 60, questionSpeed: 5000 },
 ];
