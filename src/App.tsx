@@ -34,7 +34,14 @@ function App() {
   }, [isPlaying, timeRemaining]);
 
   useEffect(() => {
-    if (!isPlaying || !difficulty) return;
+    if (!isPlaying || !difficulty) {
+      // Cleanup timer when game stops
+      if (questionTimerRef.current) {
+        clearInterval(questionTimerRef.current);
+        questionTimerRef.current = null;
+      }
+      return;
+    }
 
     const nextQuestion = () => {
       setCurrentQuestion(generateQuestion());
@@ -48,6 +55,7 @@ function App() {
     return () => {
       if (questionTimerRef.current) {
         clearInterval(questionTimerRef.current);
+        questionTimerRef.current = null;
       }
     };
   }, [isPlaying, difficulty]);
