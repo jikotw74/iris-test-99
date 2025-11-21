@@ -8,6 +8,8 @@
 .game-header {
   display: flex;
   justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   margin-bottom: 3rem;
   font-size: 1.5rem;
   padding: 1rem 2rem;
