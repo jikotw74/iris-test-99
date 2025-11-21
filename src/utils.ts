@@ -1,8 +1,10 @@
 import type { Question } from './types';
+import { MULTIPLICATION_TABLES } from './types';
 
-export const generateQuestion = (): Question => {
-  const num1 = Math.floor(Math.random() * 9) + 1;
-  const num2 = Math.floor(Math.random() * 9) + 1;
+export const generateQuestion = (allowedTables: number[] = [...MULTIPLICATION_TABLES]): Question => {
+  const pool = allowedTables.length ? allowedTables : [...MULTIPLICATION_TABLES];
+  const num1 = pool[Math.floor(Math.random() * pool.length)];
+  const num2 = pool[Math.floor(Math.random() * pool.length)];
   return {
     num1,
     num2,

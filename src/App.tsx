@@ -3,6 +3,7 @@ import DifficultySelector from './components/DifficultySelector';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
 import type { Difficulty, Question } from './types';
+import { MULTIPLICATION_TABLES } from './types';
 import { generateQuestion, checkAnswer } from './utils';
 import './App.css';
 
@@ -15,8 +16,22 @@ function App() {
   const [isGameOver, setIsGameOver] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [questionCountdownMs, setQuestionCountdownMs] = useState(0);
+  const [selectedTables, setSelectedTables] = useState<number[]>(() => [...MULTIPLICATION_TABLES]);
   const questionTimerRef = useRef<number | null>(null);
   const questionDeadlineRef = useRef<number | null>(null);
+
+  const handleToggleTable = (table: number) => {
+    setSelectedTables((prev) => {
+      if (prev.includes(table)) {
+        return prev.filter((value) => value !== table);
+      }
+      return [...prev, table].sort((a, b) => a - b);
+    });
+  };
+
+  const handleResetTables = () => {
+    setSelectedTables([...MULTIPLICATION_TABLES]);
+  };
 
   const clearQuestionTimer = useCallback(() => {
     if (questionTimerRef.current) {
@@ -32,7 +47,7 @@ function App() {
   }, [difficulty]);
 
   const advanceQuestion = useCallback(function advanceQuestionImpl() {
-    setCurrentQuestion(generateQuestion());
+    setCurrentQuestion(generateQuestion(selectedTables));
     setUserInput('');
 
     if (!difficulty || !isPlaying) {
@@ -48,7 +63,7 @@ function App() {
     questionTimerRef.current = window.setTimeout(() => {
       advanceQuestionImpl();
     }, difficulty.questionSpeed);
-  }, [difficulty, isPlaying, resetQuestionCountdown, clearQuestionTimer]);
+  }, [difficulty, isPlaying, resetQuestionCountdown, clearQuestionTimer, selectedTables]);
 
   useEffect(() => {
     if (!isPlaying || timeRemaining <= 0) return;
@@ -97,6 +112,9 @@ function App() {
   }, [isPlaying, difficulty]);
 
   const handleSelectDifficulty = (selectedDifficulty: Difficulty) => {
+    if (selectedTables.length === 0) {
+      return;
+    }
     setDifficulty(selectedDifficulty);
     setScore(0);
     setTimeRemaining(selectedDifficulty.timeLimit);
@@ -134,7 +152,14 @@ function App() {
   }
 
   if (!isPlaying || !currentQuestion || !difficulty) {
-    return <DifficultySelector onSelectDifficulty={handleSelectDifficulty} />;
+    return (
+      <DifficultySelector
+        onSelectDifficulty={handleSelectDifficulty}
+        selectedTables={selectedTables}
+        onToggleTable={handleToggleTable}
+        onResetTables={handleResetTables}
+      />
+    );
   }
 
   return (
