@@ -49,6 +49,18 @@ npm run lint
 
 每次推送到 `main` 分支時，會自動觸發建置和部署流程。
 
+### GitHub Actions 自動部署流程
+
+1. 到 GitHub 專案的 **Settings ▸ Pages**，將 **Build and deployment** 的來源 (Source) 設定為 **GitHub Actions**。這個專案已提供 `.github/workflows/deploy.yml`，會負責建置並推送靜態檔案到 Pages。
+2. 推送程式碼到 `main` 後，GitHub 會自動啟動 **Deploy to GitHub Pages** workflow。你可以在 **Actions** 分頁看到即時執行情況與紀錄。
+3. workflow 會執行 `npm ci`、`npm run build`，並將 `dist/` 產物上傳給 Pages，再由 `actions/deploy-pages` 完成部署。
+
+### 查看部署成果
+
+- 成功部署後，可以在 **Settings ▸ Pages** 或 workflow 的 `github-pages` environment 中找到公開網址。
+- 以目前的設定，網站會出現在 `https://jikotw74.github.io/iris-test-99/`。若你 fork 專案，網址會改成 `https://<你的 GitHub 使用者名稱>.github.io/<repo 名稱>/`。
+- 若想強制重新部署，可以在 **Actions** 分頁手動點選 workflow 並使用 **Run workflow** 觸發，或重新推送 (`git commit && git push`) 到 `main`。
+
 ## 🛠️ 技術棧
 
 - React 19
