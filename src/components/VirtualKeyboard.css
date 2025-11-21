@@ -1,0 +1,49 @@
+.virtual-keyboard {
+  margin-top: 2rem;
+}
+
+.keyboard-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.keyboard-button {
+  padding: 1rem;
+  font-size: 1.2rem;
+  background-color: #1a1a1a;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: bold;
+}
+
+.keyboard-button:hover {
+  background-color: #646cff;
+  transform: scale(1.05);
+}
+
+.keyboard-button:active {
+  transform: scale(0.95);
+}
+
+.keyboard-button.backspace {
+  background-color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.keyboard-button.backspace:hover {
+  background-color: #ff5252;
+}
+
+.keyboard-button.submit {
+  background-color: #51cf66;
+  border-color: #51cf66;
+}
+
+.keyboard-button.submit:hover {
+  background-color: #40c057;
+}

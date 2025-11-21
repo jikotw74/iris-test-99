@@ -1,0 +1,51 @@
+.difficulty-selector {
+  text-align: center;
+  padding: 2rem;
+}
+
+.difficulty-selector h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #646cff;
+}
+
+.difficulty-selector h2 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #888;
+}
+
+.difficulty-buttons {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.difficulty-button {
+  padding: 2rem 3rem;
+  font-size: 1.2rem;
+  background-color: #1a1a1a;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 200px;
+}
+
+.difficulty-button:hover {
+  background-color: #646cff;
+  transform: scale(1.05);
+}
+
+.difficulty-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.difficulty-info {
+  font-size: 0.9rem;
+  color: #888;
+  line-height: 1.5;
+}
