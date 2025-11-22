@@ -18,6 +18,7 @@ interface PenaltyState {
 function App() {
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
   const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -178,6 +179,7 @@ function App() {
     }
     setDifficulty(selectedDifficulty);
     setScore(0);
+    setAttempts(0);
     setTimeRemaining(selectedDifficulty.timeLimit);
     setIsPlaying(true);
     setIsGameOver(false);
@@ -189,6 +191,8 @@ function App() {
 
   const handleSubmit = () => {
     if (!currentQuestion || !userInput || isPenaltyActive) return;
+
+    setAttempts((prev) => prev + 1);
 
     if (checkAnswer(currentQuestion, userInput)) {
       setScore((prev) => prev + 1);
@@ -202,6 +206,7 @@ function App() {
   const handleRestart = () => {
     setDifficulty(null);
     setScore(0);
+    setAttempts(0);
     setTimeRemaining(0);
     setCurrentQuestion(null);
     setIsPlaying(false);
@@ -215,7 +220,7 @@ function App() {
   };
 
   if (isGameOver) {
-    return <GameOver score={score} onRestart={handleRestart} />;
+    return <GameOver score={score} attempts={attempts} onRestart={handleRestart} />;
   }
 
   if (!isPlaying || !currentQuestion || !difficulty) {
