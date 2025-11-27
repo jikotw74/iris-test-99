@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import type { Question } from '../types';
+import type { Question, NarrativeQuestion } from '../types';
 import './PenaltyModal.css';
 
 interface Props {
-  question: Question;
+  question: Question | NarrativeQuestion;
   sequence: string[];
   input: string;
   error: string;

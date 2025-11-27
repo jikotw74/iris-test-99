@@ -85,3 +85,41 @@
   color: #888;
   font-size: 0.9rem;
 }
+
+/* 敘述題樣式 */
+.narrative-question {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: #f8f9fa;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 1px solid #3a3a5a;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.narrative-hint {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+.narrative-answer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.answer-value {
+  min-width: 80px;
+}
+
+.answer-unit {
+  color: #888;
+  font-size: 1.5rem;
+}

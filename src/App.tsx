@@ -3,13 +3,13 @@ import DifficultySelector from './components/DifficultySelector';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
 import PenaltyModal from './components/PenaltyModal';
-import type { Difficulty, Question } from './types';
+import type { Difficulty, Question, NarrativeQuestion, QuestionMode } from './types';
 import { MULTIPLICATION_TABLES } from './types';
-import { generateQuestion, checkAnswer } from './utils';
+import { generateQuestion, generateNarrativeQuestion, checkAnswer } from './utils';
 import './App.css';
 
 interface PenaltyState {
-  question: Question;
+  question: Question | NarrativeQuestion;
   sequence: string[];
   input: string;
   isSequenceComplete: boolean;
@@ -20,7 +20,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+  const [currentQuestion, setCurrentQuestion] = useState<Question | NarrativeQuestion | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [userInput, setUserInput] = useState('');
@@ -28,6 +28,7 @@ function App() {
   const [selectedTables, setSelectedTables] = useState<number[]>(() => [...MULTIPLICATION_TABLES]);
   const [penaltyState, setPenaltyState] = useState<PenaltyState | null>(null);
   const [penaltyError, setPenaltyError] = useState('');
+  const [questionMode, setQuestionMode] = useState<QuestionMode>('basic');
   const questionTimerRef = useRef<number | null>(null);
   const questionDeadlineRef = useRef<number | null>(null);
   const isPenaltyActive = Boolean(penaltyState);
@@ -59,7 +60,12 @@ function App() {
   }, [difficulty]);
 
   const advanceQuestion = useCallback(function advanceQuestionImpl() {
-    setCurrentQuestion(generateQuestion(selectedTables));
+    // 根據題型生成不同的問題
+    if (questionMode === 'narrative') {
+      setCurrentQuestion(generateNarrativeQuestion(selectedTables));
+    } else {
+      setCurrentQuestion(generateQuestion(selectedTables));
+    }
     setUserInput('');
 
     if (!difficulty || !isPlaying) {
@@ -75,9 +81,9 @@ function App() {
     questionTimerRef.current = window.setTimeout(() => {
       advanceQuestionImpl();
     }, difficulty.questionSpeed);
-  }, [difficulty, isPlaying, resetQuestionCountdown, clearQuestionTimer, selectedTables]);
+  }, [difficulty, isPlaying, resetQuestionCountdown, clearQuestionTimer, selectedTables, questionMode]);
 
-  const startPenalty = useCallback((question: Question) => {
+  const startPenalty = useCallback((question: Question | NarrativeQuestion) => {
     const sequence = `${question.num1}${question.num2}${question.answer}`.split('');
     setPenaltyState({ question, sequence, input: '', isSequenceComplete: false });
     setPenaltyError('');
@@ -230,6 +236,8 @@ function App() {
         selectedTables={selectedTables}
         onToggleTable={handleToggleTable}
         onResetTables={handleResetTables}
+        questionMode={questionMode}
+        onSelectMode={setQuestionMode}
       />
     );
   }
@@ -246,6 +254,7 @@ function App() {
         questionCountdownMs={questionCountdownMs}
         questionIntervalMs={difficulty.questionSpeed}
         isPenaltyActive={isPenaltyActive}
+        questionMode={questionMode}
       />
       {penaltyState && (
         <PenaltyModal
