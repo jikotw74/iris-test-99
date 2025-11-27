@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import type { Difficulty } from '../types';
+import type { Difficulty, QuestionMode } from '../types';
 import { DIFFICULTIES, MULTIPLICATION_TABLES } from '../types';
 import './DifficultySelector.css';
 
@@ -10,6 +10,8 @@ interface Props {
   selectedTables: number[];
   onToggleTable: (table: number) => void;
   onResetTables: () => void;
+  questionMode: QuestionMode;
+  onSelectMode: (mode: QuestionMode) => void;
 }
 
 const DifficultySelector: React.FC<Props> = ({
@@ -17,6 +19,8 @@ const DifficultySelector: React.FC<Props> = ({
   selectedTables,
   onToggleTable,
   onResetTables,
+  questionMode,
+  onSelectMode,
 }) => {
   const [customTime, setCustomTime] = useState('60');
   const [customInterval, setCustomInterval] = useState('5');
@@ -73,6 +77,31 @@ const DifficultySelector: React.FC<Props> = ({
   return (
     <div className="difficulty-selector">
       <h1>99 乘法表測驗</h1>
+
+      <div className="mode-selector">
+        <h3>題型選擇</h3>
+        <div className="mode-buttons">
+          <button
+            type="button"
+            className={`mode-button ${questionMode === 'basic' ? 'active' : ''}`}
+            onClick={() => onSelectMode('basic')}
+          >
+            <span className="mode-label">A</span>
+            <span className="mode-name">基本計算</span>
+            <span className="mode-desc">直接顯示乘法算式</span>
+          </button>
+          <button
+            type="button"
+            className={`mode-button ${questionMode === 'narrative' ? 'active' : ''}`}
+            onClick={() => onSelectMode('narrative')}
+          >
+            <span className="mode-label">B</span>
+            <span className="mode-name">敘述題型</span>
+            <span className="mode-desc">生活情境應用題</span>
+          </button>
+        </div>
+      </div>
+
       <h2>選擇難度</h2>
 
       <div className="table-selector">

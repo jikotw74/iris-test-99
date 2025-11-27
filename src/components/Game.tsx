@@ -1,10 +1,11 @@
 import React, { useEffect, useCallback } from 'react';
-import type { Question } from '../types';
+import type { Question, NarrativeQuestion, QuestionMode } from '../types';
+import { isNarrativeQuestion } from '../types';
 import VirtualKeyboard from './VirtualKeyboard';
 import './Game.css';
 
 interface Props {
-  question: Question;
+  question: Question | NarrativeQuestion;
   userInput: string;
   score: number;
   timeRemaining: number;
@@ -13,6 +14,7 @@ interface Props {
   questionCountdownMs: number;
   questionIntervalMs: number;
   isPenaltyActive: boolean;
+  questionMode: QuestionMode;
 }
 
 const Game: React.FC<Props> = ({
@@ -25,6 +27,7 @@ const Game: React.FC<Props> = ({
   questionCountdownMs,
   questionIntervalMs,
   isPenaltyActive,
+  questionMode,
 }) => {
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     if (isPenaltyActive) return;
@@ -66,12 +69,29 @@ const Game: React.FC<Props> = ({
       </div>
       
       <div className="question-display">
-        <div className="question">
-          {question.num1} × {question.num2} = ?
-        </div>
-        <div className="answer-input">
-          {userInput || '_'}
-        </div>
+        {questionMode === 'narrative' && isNarrativeQuestion(question) ? (
+          <>
+            <div className="narrative-question">
+              {question.narrative}
+            </div>
+            <div className="narrative-hint">
+              (算式：{question.num1} × {question.num2} = ?)
+            </div>
+            <div className="answer-input narrative-answer">
+              <span className="answer-value">{userInput || '_'}</span>
+              <span className="answer-unit">{question.unit}</span>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="question">
+              {question.num1} × {question.num2} = ?
+            </div>
+            <div className="answer-input">
+              {userInput || '_'}
+            </div>
+          </>
+        )}
         <div className="question-progress">
           <div className="progress-label">下題倒數 {countdownSeconds} 秒</div>
           <div className="progress-bar" role="progressbar" aria-valuenow={progressPercent} aria-valuemin={0} aria-valuemax={100}>
