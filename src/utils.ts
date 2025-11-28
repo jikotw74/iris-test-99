@@ -50,3 +50,16 @@ export const checkAnswer = (question: Question | NarrativeQuestion, userAnswer: 
   const answer = parseInt(userAnswer, 10);
   return !isNaN(answer) && answer === question.answer;
 };
+
+// 驗證敘述題的乘法算式答案
+// 用戶依序輸入兩個數字（例如輸入 "35" 表示 3×5）
+export const checkNarrativeAnswer = (question: NarrativeQuestion, userAnswer: string): boolean => {
+  // 需要剛好兩個數字
+  if (userAnswer.length !== 2) return false;
+
+  const inputNum1 = parseInt(userAnswer[0], 10);
+  const inputNum2 = parseInt(userAnswer[1], 10);
+
+  // 檢查兩個數字相乘是否等於正確答案
+  return inputNum1 * inputNum2 === question.answer;
+};
