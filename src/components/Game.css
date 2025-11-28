@@ -123,3 +123,31 @@
   color: #888;
   font-size: 1.5rem;
 }
+
+/* 敘述題算式輸入樣式 */
+.narrative-formula {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  max-width: 450px;
+  font-size: 2.5rem;
+}
+
+.formula-num {
+  min-width: 60px;
+  padding: 0.3rem 0.5rem;
+  background-color: #2a2a4a;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.formula-operator {
+  color: #646cff;
+  font-weight: bold;
+}
+
+.formula-result {
+  color: #ffd43b;
+  font-weight: bold;
+}

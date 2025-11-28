@@ -5,7 +5,8 @@ import GameOver from './components/GameOver';
 import PenaltyModal from './components/PenaltyModal';
 import type { Difficulty, Question, NarrativeQuestion, QuestionMode } from './types';
 import { MULTIPLICATION_TABLES } from './types';
-import { generateQuestion, generateNarrativeQuestion, checkAnswer } from './utils';
+import { generateQuestion, generateNarrativeQuestion, checkAnswer, checkNarrativeAnswer } from './utils';
+import { isNarrativeQuestion } from './types';
 import './App.css';
 
 interface PenaltyState {
@@ -200,7 +201,12 @@ function App() {
 
     setAttempts((prev) => prev + 1);
 
-    if (checkAnswer(currentQuestion, userInput)) {
+    // 敘述題使用算式驗證，基本計算題使用答案驗證
+    const isCorrect = questionMode === 'narrative' && isNarrativeQuestion(currentQuestion)
+      ? checkNarrativeAnswer(currentQuestion, userInput)
+      : checkAnswer(currentQuestion, userInput);
+
+    if (isCorrect) {
       setScore((prev) => prev + 1);
       advanceQuestion();
       return;
