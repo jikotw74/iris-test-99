@@ -1,258 +1,486 @@
+/* ===================================
+   主頁面選擇器 - 重新設計
+   =================================== */
+
 .difficulty-selector {
-  text-align: center;
-  padding: 2rem;
-}
-
-.difficulty-selector h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-  color: #646cff;
-}
-
-.difficulty-selector h2 {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  color: #888;
-}
-
-/* 題型選擇區塊 */
-.mode-selector {
-  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
   padding: 1.5rem;
-  background: #14141d;
-  border: 1px solid #2b2b37;
-  border-radius: 12px;
 }
 
-.mode-selector h3 {
-  margin-top: 0;
-  margin-bottom: 1rem;
+/* ===================================
+   Hero 區域 - 標題與副標題
+   =================================== */
+
+.hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, rgba(100, 108, 255, 0.08), rgba(124, 77, 255, 0.05));
+  border-radius: 20px;
+  border: 1px solid rgba(100, 108, 255, 0.15);
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0 0 0.75rem;
+  color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.hero-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #646cff, #7c4dff);
+  border-radius: 14px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.hero-subtitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+/* ===================================
+   步驟區塊通用樣式
+   =================================== */
+
+.step-section {
+  margin-bottom: 1.75rem;
+  padding: 1.5rem;
+  background: #14151a;
+  border: 1px solid #2a2b35;
+  border-radius: 16px;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #646cff, #7c4dff);
+  border-radius: 50%;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.step-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
   color: #f8f9fa;
 }
 
-.mode-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
+.step-hint {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #6b7280;
+  background: rgba(100, 108, 255, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
 }
 
-.mode-button {
+/* ===================================
+   題型選擇卡片
+   =================================== */
+
+.mode-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 500px) {
+  .mode-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mode-card {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 1.25rem 2rem;
-  min-width: 180px;
-  background: #1a1a24;
-  border: 2px solid #3a3a4a;
-  border-radius: 12px;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: #1a1b22;
+  border: 2px solid #2a2b35;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: left;
 }
 
-.mode-button:hover {
+.mode-card:hover {
+  border-color: #4a4b5a;
+  background: #1e1f28;
+}
+
+.mode-card.active {
   border-color: #646cff;
-  background: #22222e;
+  background: linear-gradient(135deg, rgba(100, 108, 255, 0.12), rgba(124, 77, 255, 0.08));
+  box-shadow: 0 0 20px rgba(100, 108, 255, 0.15);
 }
 
-.mode-button.active {
-  border-color: #646cff;
-  background: linear-gradient(135deg, rgba(100, 108, 255, 0.15), rgba(124, 77, 255, 0.1));
-  box-shadow: 0 0 12px rgba(100, 108, 255, 0.3);
+.mode-icon {
+  font-size: 2rem;
+  line-height: 1;
 }
 
-.mode-label {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #646cff;
-  margin-bottom: 0.5rem;
+.mode-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .mode-name {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: #f8f9fa;
-  margin-bottom: 0.25rem;
 }
 
 .mode-desc {
   font-size: 0.85rem;
-  color: #888;
+  color: #6b7280;
 }
 
-.table-selector {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: #14141d;
-  border: 1px solid #2b2b37;
-  border-radius: 12px;
-}
-
-.table-selector h3 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  color: #f8f9fa;
-}
-
-.table-selector p {
-  margin: 0 0 1rem;
-  color: #b0b0c3;
-  font-size: 0.95rem;
-}
+/* ===================================
+   題庫選擇 Chips
+   =================================== */
 
 .table-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
-.table-option {
+.table-chip {
+  padding: 0.6rem 1rem;
+  background: #1a1b22;
+  border: 1.5px solid #2a2b35;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.table-chip:hover {
+  border-color: #4a4b5a;
+  background: #22232d;
+}
+
+.table-chip.checked {
+  background: linear-gradient(135deg, rgba(100, 108, 255, 0.2), rgba(124, 77, 255, 0.15));
+  border-color: #646cff;
+  color: #c7caff;
+}
+
+.table-actions {
+  margin-top: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 0.75rem;
-  border: 1px solid #2f2f3a;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  color: #e0e0f0;
-  background: #1a1a24;
-}
-
-.table-option input {
-  width: 18px;
-  height: 18px;
-}
-
-.table-option.checked {
-  border-color: #646cff;
-  box-shadow: 0 0 0 1px rgba(100, 108, 255, 0.4);
+  gap: 1rem;
 }
 
 .table-error {
-  margin-top: 0.75rem;
-  color: #ff6b6b;
-  font-size: 0.9rem;
+  color: #f87171;
+  font-size: 0.85rem;
 }
 
 .table-reset {
-  margin-top: 0.75rem;
   background: transparent;
-  border: 1px dashed #646cff;
+  border: 1px dashed #4a4b5a;
   color: #9fa8ff;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .table-reset:hover {
   background: rgba(100, 108, 255, 0.1);
+  border-color: #646cff;
 }
 
-.difficulty-buttons {
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+/* ===================================
+   難度選擇卡片 - 帶顏色區分
+   =================================== */
 
-.custom-difficulty {
-  margin-top: 3rem;
-  padding: 2rem;
-  background: #151515;
-  border: 1px solid #2f2f3a;
-  border-radius: 12px;
-  max-width: 540px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.custom-difficulty h3 {
-  margin: 0 0 1rem;
-  color: #f8f9fa;
-}
-
-.custom-form {
+.difficulty-grid {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
-.custom-form label {
+@media (max-width: 600px) {
+  .difficulty-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.difficulty-card {
   display: flex;
   flex-direction: column;
-  text-align: left;
-  font-size: 0.95rem;
-  color: #ddd;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  background: #1a1b22;
+  border: 2px solid #2a2b35;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.custom-form input {
-  margin-top: 0.35rem;
+.difficulty-card:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.difficulty-card:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 簡單 - 綠色 */
+.difficulty-card.easy {
+  border-color: #22c55e;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(34, 197, 94, 0.03));
+}
+
+.difficulty-card.easy:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.08));
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.2);
+}
+
+.difficulty-card.easy .difficulty-name {
+  color: #4ade80;
+}
+
+/* 普通 - 橙色 */
+.difficulty-card.normal {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.03));
+}
+
+.difficulty-card.normal:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.08));
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2);
+}
+
+.difficulty-card.normal .difficulty-name {
+  color: #fbbf24;
+}
+
+/* 困難 - 紅色 */
+.difficulty-card.hard {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.03));
+}
+
+.difficulty-card.hard:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.08));
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.2);
+}
+
+.difficulty-card.hard .difficulty-name {
+  color: #f87171;
+}
+
+.difficulty-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #f8f9fa;
+}
+
+.difficulty-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.stat-icon {
+  font-size: 0.9rem;
+}
+
+/* ===================================
+   進階設定 - 可折疊區域
+   =================================== */
+
+.advanced-section {
+  margin-top: 1rem;
+}
+
+.advanced-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem;
+  background: transparent;
+  border: 1px dashed #3a3b45;
+  border-radius: 12px;
+  color: #6b7280;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.advanced-toggle:hover {
+  border-color: #646cff;
+  color: #9fa8ff;
+  background: rgba(100, 108, 255, 0.05);
+}
+
+.toggle-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.toggle-arrow.open {
+  transform: rotate(180deg);
+}
+
+.advanced-content {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: #14151a;
+  border: 1px solid #2a2b35;
+  border-radius: 14px;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 400px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: #0d0e12;
+  border: 1.5px solid #2a2b35;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.input-group:focus-within {
+  border-color: #646cff;
+  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
+}
+
+.input-group input {
+  flex: 1;
   padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #3a3a3a;
-  background: #0d0d12;
+  background: transparent;
+  border: none;
   color: #f8f9fa;
   font-size: 1rem;
+  outline: none;
 }
 
-.custom-form input:focus {
-  outline: none;
-  border-color: #646cff;
-  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.3);
+.input-suffix {
+  padding: 0 1rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  background: rgba(100, 108, 255, 0.05);
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .custom-error {
-  color: #ff6b6b;
-  font-size: 0.9rem;
+  color: #f87171;
+  font-size: 0.85rem;
+  text-align: center;
 }
 
 .custom-submit {
   width: 100%;
-  padding: 0.9rem 1.2rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: linear-gradient(90deg, #646cff, #7c4dff);
+  padding: 0.9rem 1.5rem;
+  background: linear-gradient(135deg, #646cff, #7c4dff);
   border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 108, 255, 0.35);
 }
 
 .custom-submit:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-}
-
-.difficulty-button {
-  padding: 2rem 3rem;
-  font-size: 1.2rem;
-  background-color: #1a1a1a;
-  border: 2px solid #646cff;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-  min-width: 200px;
-}
-
-.difficulty-button:hover {
-  background-color: #646cff;
-  transform: scale(1.05);
-}
-
-.difficulty-button:disabled,
-.difficulty-button:disabled:hover {
-  background-color: #1a1a1a;
-  color: #555;
-  border-color: #3a3a3a;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.difficulty-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.difficulty-info {
-  font-size: 0.9rem;
-  color: #888;
-  line-height: 1.5;
 }

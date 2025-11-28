@@ -25,6 +25,7 @@ const DifficultySelector: React.FC<Props> = ({
   const [customTime, setCustomTime] = useState('60');
   const [customInterval, setCustomInterval] = useState('5');
   const [error, setError] = useState('');
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const hasTableSelection = selectedTables.length > 0;
 
@@ -74,113 +75,174 @@ const DifficultySelector: React.FC<Props> = ({
     });
   };
 
+  const getDifficultyColor = (name: string) => {
+    switch (name) {
+      case '簡單': return 'easy';
+      case '普通': return 'normal';
+      case '困難': return 'hard';
+      default: return '';
+    }
+  };
+
   return (
     <div className="difficulty-selector">
-      <h1>99 乘法表測驗</h1>
+      {/* Hero Section */}
+      <header className="hero">
+        <h1 className="hero-title">
+          <span className="hero-icon">✕</span>
+          99 乘法表
+        </h1>
+        <p className="hero-subtitle">挑戰你的數學能力，成為乘法大師！</p>
+      </header>
 
-      <div className="mode-selector">
-        <h3>題型選擇</h3>
+      {/* Step 1: 題型選擇 */}
+      <section className="step-section">
+        <div className="step-header">
+          <span className="step-number">1</span>
+          <h2 className="step-title">選擇題型</h2>
+        </div>
         <div className="mode-buttons">
           <button
             type="button"
-            className={`mode-button ${questionMode === 'basic' ? 'active' : ''}`}
+            className={`mode-card ${questionMode === 'basic' ? 'active' : ''}`}
             onClick={() => onSelectMode('basic')}
           >
-            <span className="mode-label">A</span>
-            <span className="mode-name">基本計算</span>
-            <span className="mode-desc">直接顯示乘法算式</span>
+            <div className="mode-icon">🔢</div>
+            <div className="mode-content">
+              <span className="mode-name">基本計算</span>
+              <span className="mode-desc">直接顯示乘法算式</span>
+            </div>
           </button>
           <button
             type="button"
-            className={`mode-button ${questionMode === 'narrative' ? 'active' : ''}`}
+            className={`mode-card ${questionMode === 'narrative' ? 'active' : ''}`}
             onClick={() => onSelectMode('narrative')}
           >
-            <span className="mode-label">B</span>
-            <span className="mode-name">敘述題型</span>
-            <span className="mode-desc">生活情境應用題</span>
+            <div className="mode-icon">📖</div>
+            <div className="mode-content">
+              <span className="mode-name">敘述題型</span>
+              <span className="mode-desc">生活情境應用題</span>
+            </div>
           </button>
         </div>
-      </div>
+      </section>
 
-      <h2>選擇難度</h2>
-
-      <div className="table-selector">
-        <h3>題庫選擇</h3>
-        <p>
-          此處僅限制第一個數字 (第幾的乘法)，預設 2～9 全選；例如取消 3 就不會出現 3×5。
-          1 的乘法不在題庫列表。
-        </p>
+      {/* Step 2: 題庫選擇 */}
+      <section className="step-section">
+        <div className="step-header">
+          <span className="step-number">2</span>
+          <h2 className="step-title">選擇題庫</h2>
+          <span className="step-hint">
+            已選 {selectedTables.length}/{MULTIPLICATION_TABLES.length} 個
+          </span>
+        </div>
         <div className="table-grid">
           {MULTIPLICATION_TABLES.map((table) => {
             const checked = selectedTables.includes(table);
             return (
-              <label key={table} className={`table-option ${checked ? 'checked' : ''}`}>
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={() => onToggleTable(table)}
-                />
-                <span>{table} 的乘法</span>
-              </label>
+              <button
+                key={table}
+                type="button"
+                className={`table-chip ${checked ? 'checked' : ''}`}
+                onClick={() => onToggleTable(table)}
+              >
+                {table} 的乘法
+              </button>
             );
           })}
         </div>
-        {!hasTableSelection && (
-          <div className="table-error">請至少選擇一個乘法題庫</div>
-        )}
-        {hasTableSelection && selectedTables.length !== MULTIPLICATION_TABLES.length && (
-          <button type="button" className="table-reset" onClick={onResetTables}>
-            全部勾選
-          </button>
-        )}
-      </div>
+        <div className="table-actions">
+          {!hasTableSelection && (
+            <div className="table-error">請至少選擇一個乘法題庫</div>
+          )}
+          {hasTableSelection && selectedTables.length !== MULTIPLICATION_TABLES.length && (
+            <button type="button" className="table-reset" onClick={onResetTables}>
+              全部勾選
+            </button>
+          )}
+        </div>
+      </section>
 
-      <div className="difficulty-buttons">
-        {DIFFICULTIES.map((difficulty) => (
-          <button
-            key={difficulty.name}
-            onClick={() => handleDifficultyClick(difficulty)}
-            className="difficulty-button"
-            disabled={!hasTableSelection}
-          >
-            <div className="difficulty-name">{difficulty.name}</div>
-            <div className="difficulty-info">
-              時間: {difficulty.timeLimit} 秒<br />
-              題目速度: {difficulty.questionSpeed / 1000} 秒/題
-            </div>
-          </button>
-        ))}
-      </div>
+      {/* Step 3: 難度選擇 */}
+      <section className="step-section">
+        <div className="step-header">
+          <span className="step-number">3</span>
+          <h2 className="step-title">選擇難度並開始</h2>
+        </div>
+        <div className="difficulty-grid">
+          {DIFFICULTIES.map((difficulty) => (
+            <button
+              key={difficulty.name}
+              onClick={() => handleDifficultyClick(difficulty)}
+              className={`difficulty-card ${getDifficultyColor(difficulty.name)}`}
+              disabled={!hasTableSelection}
+            >
+              <div className="difficulty-name">{difficulty.name}</div>
+              <div className="difficulty-stats">
+                <div className="stat">
+                  <span className="stat-icon">⏱️</span>
+                  <span>{difficulty.timeLimit} 秒</span>
+                </div>
+                <div className="stat">
+                  <span className="stat-icon">⚡</span>
+                  <span>{difficulty.questionSpeed / 1000} 秒/題</span>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
 
-      <div className="custom-difficulty">
-        <h3>或自訂挑戰</h3>
-        <form onSubmit={handleCustomSubmit} className="custom-form">
-          <label>
-            總時間 (秒)
-            <input
-              type="number"
-              min={5}
-              value={customTime}
-              onChange={(e) => setCustomTime(e.target.value)}
-              required
-            />
-          </label>
-          <label>
-            幾秒換題
-            <input
-              type="number"
-              min={1}
-              value={customInterval}
-              onChange={(e) => setCustomInterval(e.target.value)}
-              required
-            />
-          </label>
-          {error && <div className="custom-error">{error}</div>}
-          <button type="submit" className="custom-submit" disabled={!hasTableSelection}>
-            開始挑戰
-          </button>
-        </form>
-      </div>
+      {/* 進階選項 - 可折疊 */}
+      <section className="advanced-section">
+        <button
+          type="button"
+          className="advanced-toggle"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+        >
+          <span>進階設定</span>
+          <span className={`toggle-arrow ${showAdvanced ? 'open' : ''}`}>▼</span>
+        </button>
+
+        {showAdvanced && (
+          <div className="advanced-content">
+            <form onSubmit={handleCustomSubmit} className="custom-form">
+              <div className="form-row">
+                <label className="form-field">
+                  <span className="field-label">總時間</span>
+                  <div className="input-group">
+                    <input
+                      type="number"
+                      min={5}
+                      value={customTime}
+                      onChange={(e) => setCustomTime(e.target.value)}
+                      required
+                    />
+                    <span className="input-suffix">秒</span>
+                  </div>
+                </label>
+                <label className="form-field">
+                  <span className="field-label">換題時間</span>
+                  <div className="input-group">
+                    <input
+                      type="number"
+                      min={1}
+                      value={customInterval}
+                      onChange={(e) => setCustomInterval(e.target.value)}
+                      required
+                    />
+                    <span className="input-suffix">秒</span>
+                  </div>
+                </label>
+              </div>
+              {error && <div className="custom-error">{error}</div>}
+              <button type="submit" className="custom-submit" disabled={!hasTableSelection}>
+                自訂挑戰
+              </button>
+            </form>
+          </div>
+        )}
+      </section>
     </div>
   );
 };
