@@ -5,24 +5,15 @@ interface Props {
   onNumberClick: (num: string) => void;
   onBackspace: () => void;
   onSubmit: () => void;
-  onMultiply?: () => void;
-  showMultiply?: boolean;
   disabled?: boolean;
 }
 
-const VirtualKeyboard: React.FC<Props> = ({
-  onNumberClick,
-  onBackspace,
-  onSubmit,
-  onMultiply,
-  showMultiply = false,
-  disabled
-}) => {
+const VirtualKeyboard: React.FC<Props> = ({ onNumberClick, onBackspace, onSubmit, disabled }) => {
   const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
   return (
     <div className="virtual-keyboard">
-      <div className={`keyboard-grid ${showMultiply ? 'with-multiply' : ''}`}>
+      <div className="keyboard-grid">
         {numbers.map((num) => (
           <button
             key={num}
@@ -47,15 +38,6 @@ const VirtualKeyboard: React.FC<Props> = ({
         >
           0
         </button>
-        {showMultiply ? (
-          <button
-            className="keyboard-button multiply action"
-            onClick={onMultiply}
-            disabled={disabled}
-          >
-            ×
-          </button>
-        ) : null}
         <button
           className="keyboard-button submit action"
           onClick={onSubmit}

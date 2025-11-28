@@ -33,15 +33,12 @@ const Game: React.FC<Props> = ({
     if (isPenaltyActive) return;
     if (e.key >= '0' && e.key <= '9') {
       onInputChange(userInput + e.key);
-    } else if ((e.key === '*' || e.key === 'x' || e.key === 'X') && questionMode === 'narrative') {
-      // 敘述題模式：支援鍵盤輸入乘號
-      onInputChange(userInput + '×');
     } else if (e.key === 'Backspace') {
       onInputChange(userInput.slice(0, -1));
     } else if (e.key === 'Enter') {
       onSubmit();
     }
-  }, [userInput, onInputChange, onSubmit, isPenaltyActive, questionMode]);
+  }, [userInput, onInputChange, onSubmit, isPenaltyActive]);
 
   useEffect(() => {
     if (isPenaltyActive) return;
@@ -59,20 +56,6 @@ const Game: React.FC<Props> = ({
     onInputChange(userInput.slice(0, -1));
   };
 
-  const handleMultiply = () => {
-    onInputChange(userInput + '×');
-  };
-
-  // 解析敘述題的輸入，分離出兩個數字
-  const parseNarrativeInput = (input: string) => {
-    const parts = input.split('×');
-    return {
-      num1: parts[0] || '',
-      num2: parts[1] || '',
-      hasMultiply: input.includes('×'),
-    };
-  };
-
   const countdownSeconds = Math.max(0, Math.ceil(questionCountdownMs / 1000));
   const progressPercent = questionIntervalMs
     ? Math.min(100, Math.max(0, (questionCountdownMs / questionIntervalMs) * 100))
@@ -84,7 +67,7 @@ const Game: React.FC<Props> = ({
         <div className="score">分數: {score}</div>
         <div className="timer">剩餘時間: {timeRemaining}秒</div>
       </div>
-      
+
       <div className="question-display">
         {questionMode === 'narrative' && isNarrativeQuestion(question) ? (
           <>
@@ -92,22 +75,19 @@ const Game: React.FC<Props> = ({
               {question.narrative}
             </div>
             <div className="narrative-hint">
-              請輸入正確的乘法算式
+              請依序輸入乘法算式的兩個數字
             </div>
-            <div className="answer-input narrative-formula">
-              {(() => {
-                const parsed = parseNarrativeInput(userInput);
-                return (
-                  <>
-                    <span className="formula-num">{parsed.num1 || '__'}</span>
-                    <span className="formula-operator">×</span>
-                    <span className="formula-num">{parsed.hasMultiply ? (parsed.num2 || '__') : '__'}</span>
-                    <span className="formula-operator">=</span>
-                    <span className="formula-result">?</span>
-                    <span className="answer-unit">{question.unit}</span>
-                  </>
-                );
-              })()}
+            <div className="narrative-formula-boxes">
+              <div className={`formula-box ${userInput.length >= 1 ? 'filled' : ''}`}>
+                {userInput[0] || ''}
+              </div>
+              <span className="formula-operator">×</span>
+              <div className={`formula-box ${userInput.length >= 2 ? 'filled' : ''}`}>
+                {userInput[1] || ''}
+              </div>
+              <span className="formula-operator">=</span>
+              <span className="formula-result">?</span>
+              <span className="answer-unit">{question.unit}</span>
             </div>
           </>
         ) : (
@@ -132,8 +112,6 @@ const Game: React.FC<Props> = ({
         onNumberClick={handleNumberClick}
         onBackspace={handleBackspace}
         onSubmit={onSubmit}
-        onMultiply={handleMultiply}
-        showMultiply={questionMode === 'narrative'}
         disabled={isPenaltyActive}
       />
 

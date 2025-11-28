@@ -52,26 +52,6 @@
   grid-column: 2;
 }
 
-/* 敘述題模式：4 列佈局 */
-.keyboard-grid.with-multiply {
-  grid-template-columns: repeat(4, minmax(60px, 1fr));
-}
-
-.keyboard-grid.with-multiply .keyboard-button.zero {
-  grid-column: auto;
-}
-
-.keyboard-button.multiply {
-  background-color: #ffd43b;
-  border-color: #fcc419;
-  color: #1a1a1a;
-  font-size: 1.5rem;
-}
-
-.keyboard-button.multiply:hover {
-  background-color: #fcc419;
-}
-
 .keyboard-button.action {
   font-size: 1rem;
 }
