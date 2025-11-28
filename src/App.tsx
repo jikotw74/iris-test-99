@@ -80,6 +80,7 @@ function App() {
 
     clearQuestionTimer();
     questionTimerRef.current = window.setTimeout(() => {
+      setAttempts((prev) => prev + 1);  // 超時未回答也算作一次失敗
       advanceQuestionImpl();
     }, difficulty.questionSpeed);
   }, [difficulty, isPlaying, resetQuestionCountdown, clearQuestionTimer, selectedTables, questionMode]);
