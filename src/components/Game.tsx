@@ -75,7 +75,7 @@ const Game: React.FC<Props> = ({
               {question.narrative}
             </div>
             <div className="narrative-hint">
-              請依序輸入乘法算式的兩個數字
+              請依序輸入乘法算式和答案
             </div>
             <div className="narrative-formula-boxes">
               <div className={`formula-box ${userInput.length >= 1 ? 'filled' : ''}`}>
@@ -86,7 +86,9 @@ const Game: React.FC<Props> = ({
                 {userInput[1] || ''}
               </div>
               <span className="formula-operator">=</span>
-              <span className="formula-result">?</span>
+              <div className={`formula-box answer-box ${userInput.length >= 3 ? 'filled' : ''}`}>
+                {userInput.slice(2) || ''}
+              </div>
               <span className="answer-unit">{question.unit}</span>
             </div>
           </>

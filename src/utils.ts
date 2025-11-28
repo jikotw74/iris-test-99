@@ -52,14 +52,15 @@ export const checkAnswer = (question: Question | NarrativeQuestion, userAnswer: 
 };
 
 // 驗證敘述題的乘法算式答案
-// 用戶依序輸入兩個數字（例如輸入 "35" 表示 3×5）
+// 用戶依序輸入兩個乘數和答案（例如輸入 "3515" 表示 3×5=15）
 export const checkNarrativeAnswer = (question: NarrativeQuestion, userAnswer: string): boolean => {
-  // 需要剛好兩個數字
-  if (userAnswer.length !== 2) return false;
+  // 需要至少 3 個字符（兩個乘數 + 至少 1 位答案）
+  if (userAnswer.length < 3) return false;
 
   const inputNum1 = parseInt(userAnswer[0], 10);
   const inputNum2 = parseInt(userAnswer[1], 10);
+  const inputAnswer = parseInt(userAnswer.slice(2), 10);
 
-  // 檢查兩個數字相乘是否等於正確答案
-  return inputNum1 * inputNum2 === question.answer;
+  // 檢查乘法算式正確且答案正確
+  return inputNum1 * inputNum2 === question.answer && inputAnswer === question.answer;
 };

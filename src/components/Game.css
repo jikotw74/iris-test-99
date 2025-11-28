@@ -152,6 +152,10 @@
   border-color: #51cf66;
 }
 
+.formula-box.answer-box {
+  width: 80px;
+}
+
 .formula-operator {
   color: #646cff;
   font-weight: bold;
