@@ -5,8 +5,12 @@
 .difficulty-selector {
   width: 100%;
   max-width: 720px;
+  height: 100%;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ===================================
@@ -129,6 +133,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mode-card:hover {
@@ -183,6 +189,8 @@
   color: #d1d5db;
   cursor: pointer;
   transition: all 0.15s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .table-chip:hover {
@@ -250,6 +258,8 @@
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.25s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .difficulty-card:hover:not(:disabled) {

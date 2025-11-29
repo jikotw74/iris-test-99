@@ -19,6 +19,8 @@
   cursor: pointer;
   transition: all 0.2s;
   font-weight: bold;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .keyboard-button:hover {
