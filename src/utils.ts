@@ -5,7 +5,7 @@ import { NARRATIVE_TEMPLATES, getRandomTemplate } from './narrativeProblems';
 export const generateQuestion = (allowedTables: number[] = [...MULTIPLICATION_TABLES]): Question => {
   const firstNumberPool = allowedTables.length ? allowedTables : [...MULTIPLICATION_TABLES];
   const num1 = firstNumberPool[Math.floor(Math.random() * firstNumberPool.length)];
-  const num2 = Math.floor(Math.random() * 9) + 1;
+  const num2 = Math.floor(Math.random() * 8) + 2; // 2-9，排除 1
   return {
     num1,
     num2,
@@ -20,7 +20,7 @@ export const generateNarrativeQuestion = (
 ): NarrativeQuestion => {
   const firstNumberPool = allowedTables.length ? allowedTables : [...MULTIPLICATION_TABLES];
   const num1 = firstNumberPool[Math.floor(Math.random() * firstNumberPool.length)];
-  const num2 = Math.floor(Math.random() * 9) + 1;
+  const num2 = Math.floor(Math.random() * 8) + 2; // 2-9，排除 1
   const answer = num1 * num2;
 
   // 獲取隨機模板
