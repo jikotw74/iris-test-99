@@ -116,6 +116,69 @@ export const checkIfTop10 = async (
   }
 };
 
+// 按玩家名稱查詢成績記錄
+export const searchByName = async (
+  name: string,
+  difficulty?: DifficultyName,
+  questionMode?: QuestionMode
+): Promise<LeaderboardEntry[]> => {
+  if (!isFirebaseConfigured()) {
+    console.warn('Firebase 未設定，無法查詢成績');
+    return [];
+  }
+
+  if (!name.trim()) {
+    return [];
+  }
+
+  try {
+    // 建立基本查詢
+    let q;
+    if (difficulty && questionMode) {
+      q = query(
+        collection(db, COLLECTION_NAME),
+        where('name', '==', name.trim()),
+        where('difficulty', '==', difficulty),
+        where('questionMode', '==', questionMode),
+        orderBy('score', 'desc'),
+        orderBy('timeUsed', 'asc'),
+        limit(20)
+      );
+    } else if (difficulty) {
+      q = query(
+        collection(db, COLLECTION_NAME),
+        where('name', '==', name.trim()),
+        where('difficulty', '==', difficulty),
+        orderBy('score', 'desc'),
+        orderBy('timeUsed', 'asc'),
+        limit(20)
+      );
+    } else if (questionMode) {
+      q = query(
+        collection(db, COLLECTION_NAME),
+        where('name', '==', name.trim()),
+        where('questionMode', '==', questionMode),
+        orderBy('score', 'desc'),
+        orderBy('timeUsed', 'asc'),
+        limit(20)
+      );
+    } else {
+      q = query(
+        collection(db, COLLECTION_NAME),
+        where('name', '==', name.trim()),
+        orderBy('timestamp', 'desc'),
+        limit(20)
+      );
+    }
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(docToEntry);
+  } catch (error) {
+    console.error('查詢玩家成績失敗:', error);
+    throw error;
+  }
+};
+
 // 取得玩家在排行榜中的名次（1-based，0 表示未上榜）
 export const getRank = async (
   difficulty: DifficultyName,
