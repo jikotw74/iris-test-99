@@ -12,6 +12,7 @@ interface Props {
   onResetTables: () => void;
   questionMode: QuestionMode;
   onSelectMode: (mode: QuestionMode) => void;
+  onShowLeaderboard?: () => void;
 }
 
 const DifficultySelector: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const DifficultySelector: React.FC<Props> = ({
   onResetTables,
   questionMode,
   onSelectMode,
+  onShowLeaderboard,
 }) => {
   const [customTime, setCustomTime] = useState('60');
   const [customInterval, setCustomInterval] = useState('5');
@@ -93,6 +95,15 @@ const DifficultySelector: React.FC<Props> = ({
           99 乘法表
         </h1>
         <p className="hero-subtitle">挑戰你的數學能力，成為乘法大師！</p>
+        {onShowLeaderboard && (
+          <button
+            type="button"
+            className="hero-leaderboard-btn"
+            onClick={onShowLeaderboard}
+          >
+            🏆 排行榜
+          </button>
+        )}
       </header>
 
       {/* Step 1: 題型選擇 */}

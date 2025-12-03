@@ -3,10 +3,12 @@ import DifficultySelector from './components/DifficultySelector';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
 import PenaltyModal from './components/PenaltyModal';
-import type { Difficulty, Question, NarrativeQuestion, QuestionMode } from './types';
-import { MULTIPLICATION_TABLES } from './types';
+import Leaderboard from './components/Leaderboard';
+import type { Difficulty, Question, NarrativeQuestion, QuestionMode, DifficultyName } from './types';
+import { MULTIPLICATION_TABLES, DIFFICULTIES } from './types';
 import { generateQuestion, generateNarrativeQuestion, checkAnswer, checkNarrativeAnswer } from './utils';
 import { isNarrativeQuestion } from './types';
+import { isFirebaseConfigured } from './firebase';
 import './App.css';
 
 interface PenaltyState {
@@ -30,6 +32,7 @@ function App() {
   const [penaltyState, setPenaltyState] = useState<PenaltyState | null>(null);
   const [penaltyError, setPenaltyError] = useState('');
   const [questionMode, setQuestionMode] = useState<QuestionMode>('basic');
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const questionTimerRef = useRef<number | null>(null);
   const questionDeadlineRef = useRef<number | null>(null);
   const isPenaltyActive = Boolean(penaltyState);
@@ -232,20 +235,44 @@ function App() {
     setPenaltyError('');
   };
 
-  if (isGameOver) {
-    return <GameOver score={score} attempts={attempts} onRestart={handleRestart} />;
+  if (isGameOver && difficulty) {
+    // 計算使用時間
+    const timeUsed = difficulty.timeLimit - timeRemaining;
+    // 確認難度名稱是否為預設難度，否則使用「自訂」
+    const difficultyName: DifficultyName = DIFFICULTIES.some(d => d.name === difficulty.name)
+      ? (difficulty.name as DifficultyName)
+      : '困難'; // 自訂難度歸類為困難
+
+    return (
+      <GameOver
+        score={score}
+        attempts={attempts}
+        timeUsed={timeUsed}
+        difficulty={difficultyName}
+        questionMode={questionMode}
+        onRestart={handleRestart}
+      />
+    );
   }
 
   if (!isPlaying || !currentQuestion || !difficulty) {
     return (
-      <DifficultySelector
-        onSelectDifficulty={handleSelectDifficulty}
-        selectedTables={selectedTables}
-        onToggleTable={handleToggleTable}
-        onResetTables={handleResetTables}
-        questionMode={questionMode}
-        onSelectMode={setQuestionMode}
-      />
+      <>
+        <DifficultySelector
+          onSelectDifficulty={handleSelectDifficulty}
+          selectedTables={selectedTables}
+          onToggleTable={handleToggleTable}
+          onResetTables={handleResetTables}
+          questionMode={questionMode}
+          onSelectMode={setQuestionMode}
+          onShowLeaderboard={isFirebaseConfigured() ? () => setShowLeaderboard(true) : undefined}
+        />
+        {showLeaderboard && (
+          <Leaderboard
+            onClose={() => setShowLeaderboard(false)}
+          />
+        )}
+      </>
     );
   }
 

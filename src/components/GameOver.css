@@ -11,15 +11,29 @@
 
 .game-over h1 {
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   color: #646cff;
+}
+
+.game-info {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.info-badge {
+  padding: 0.25rem 0.75rem;
+  background-color: #333;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #aaa;
 }
 
 .final-score {
   background-color: #1a1a1a;
   border-radius: 14px;
   padding: 1.5rem 2rem;
-  margin: 1rem auto;
+  margin: 0.75rem auto;
   max-width: 350px;
   width: 100%;
   border: 3px solid #646cff;
@@ -38,7 +52,7 @@
 }
 
 .accuracy {
-  margin: 0 auto 1rem;
+  margin: 0 auto 0.75rem;
   padding: 1rem;
   max-width: 350px;
   width: 100%;
@@ -60,9 +74,65 @@
   margin-bottom: 0.25rem;
 }
 
+.accuracy-value.perfect {
+  color: #51cf66;
+}
+
 .accuracy-detail {
   font-size: 0.85rem;
   color: #888;
+}
+
+.time-used {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #888;
+}
+
+.time-label {
+  color: #666;
+}
+
+.time-value {
+  color: #4dabf7;
+  font-weight: bold;
+}
+
+.checking-status {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.submit-score-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #51cf66;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #1a1a1a;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  transition: all 0.3s;
+}
+
+.submit-score-button:hover {
+  background-color: #40c057;
+  transform: scale(1.03);
+}
+
+.submitted-message {
+  color: #51cf66;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .restart-button {
@@ -73,12 +143,28 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
-  margin-top: 1rem;
   font-weight: bold;
 }
 
 .restart-button:hover {
   background-color: #535bf2;
+  transform: scale(1.03);
+}
+
+.leaderboard-button {
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  background-color: #333;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  color: #fff;
+}
+
+.leaderboard-button:hover {
+  background-color: #444;
   transform: scale(1.03);
 }
 
@@ -89,7 +175,16 @@
 
   .game-over h1 {
     font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .game-info {
     margin-bottom: 0.75rem;
+  }
+
+  .info-badge {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
   }
 
   .final-score {
@@ -116,9 +211,22 @@
     font-size: 1.5rem;
   }
 
-  .restart-button {
+  .submit-score-button {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .restart-button,
+  .leaderboard-button {
     padding: 0.85rem 1.5rem;
     font-size: 1rem;
+    width: 100%;
   }
 }
 
@@ -146,9 +254,17 @@
     font-size: 1.5rem;
   }
 
-  .restart-button {
+  .time-used {
+    margin-bottom: 0.5rem;
+  }
+
+  .submit-score-button {
+    margin-bottom: 0.5rem;
+  }
+
+  .restart-button,
+  .leaderboard-button {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
-    margin-top: 0.5rem;
   }
 }

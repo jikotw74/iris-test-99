@@ -1,0 +1,167 @@
+.submit-score-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.submit-score-modal {
+  background-color: #1a1a1a;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+  border: 2px solid #51cf66;
+}
+
+.submit-score-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.congrats-emoji {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.submit-score-header h2 {
+  font-size: 1.25rem;
+  color: #51cf66;
+  margin-bottom: 0.75rem;
+}
+
+.submit-score-info {
+  font-size: 0.9rem;
+  color: #888;
+  line-height: 1.6;
+}
+
+.submit-score-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.submit-score-form label {
+  font-size: 0.9rem;
+  color: #ccc;
+  text-align: center;
+}
+
+.submit-score-form input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background-color: #242424;
+  color: #fff;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.submit-score-form input:focus {
+  outline: none;
+  border-color: #646cff;
+}
+
+.submit-score-form input:disabled {
+  opacity: 0.6;
+}
+
+.name-length {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: -0.5rem;
+}
+
+.submit-error {
+  text-align: center;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  background-color: rgba(255, 107, 107, 0.1);
+  border-radius: 6px;
+}
+
+.submit-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.skip-btn,
+.submit-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.skip-btn {
+  background-color: #333;
+  color: #888;
+}
+
+.skip-btn:hover:not(:disabled) {
+  background-color: #444;
+  color: #aaa;
+}
+
+.submit-btn {
+  background-color: #51cf66;
+  color: #1a1a1a;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #40c057;
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.skip-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .submit-score-modal {
+    padding: 1.25rem;
+  }
+
+  .congrats-emoji {
+    font-size: 2.5rem;
+  }
+
+  .submit-score-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .submit-score-info {
+    font-size: 0.85rem;
+  }
+
+  .submit-score-form input {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .skip-btn,
+  .submit-btn {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+  }
+}
