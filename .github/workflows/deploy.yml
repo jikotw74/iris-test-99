@@ -29,6 +29,41 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug Firebase Secrets
+        run: |
+          echo "=== Firebase Secrets Check ==="
+          if [ -n "${{ secrets.VITE_FIREBASE_API_KEY }}" ]; then
+            echo "✓ VITE_FIREBASE_API_KEY is set"
+          else
+            echo "✗ VITE_FIREBASE_API_KEY is NOT set"
+          fi
+          if [ -n "${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}" ]; then
+            echo "✓ VITE_FIREBASE_AUTH_DOMAIN is set"
+          else
+            echo "✗ VITE_FIREBASE_AUTH_DOMAIN is NOT set"
+          fi
+          if [ -n "${{ secrets.VITE_FIREBASE_PROJECT_ID }}" ]; then
+            echo "✓ VITE_FIREBASE_PROJECT_ID is set"
+          else
+            echo "✗ VITE_FIREBASE_PROJECT_ID is NOT set"
+          fi
+          if [ -n "${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}" ]; then
+            echo "✓ VITE_FIREBASE_STORAGE_BUCKET is set"
+          else
+            echo "✗ VITE_FIREBASE_STORAGE_BUCKET is NOT set"
+          fi
+          if [ -n "${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}" ]; then
+            echo "✓ VITE_FIREBASE_MESSAGING_SENDER_ID is set"
+          else
+            echo "✗ VITE_FIREBASE_MESSAGING_SENDER_ID is NOT set"
+          fi
+          if [ -n "${{ secrets.VITE_FIREBASE_APP_ID }}" ]; then
+            echo "✓ VITE_FIREBASE_APP_ID is set"
+          else
+            echo "✗ VITE_FIREBASE_APP_ID is NOT set"
+          fi
+          echo "=== End of Firebase Secrets Check ==="
+
       - name: Build
         run: npm run build
         env:
@@ -38,6 +73,27 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+
+      - name: Check Firebase config in built files
+        run: |
+          echo "=== Checking Firebase Config in Built JS Files ==="
+          if grep -r "firebaseConfig" dist/assets/*.js 2>/dev/null; then
+            echo "✓ Found firebaseConfig in built JS files"
+          else
+            echo "✗ firebaseConfig NOT found in built JS files"
+          fi
+          echo "--- Checking for Firebase keys (partial match for security) ---"
+          if grep -r "apiKey" dist/assets/*.js 2>/dev/null | head -1; then
+            echo "✓ apiKey reference found"
+          else
+            echo "✗ apiKey reference NOT found"
+          fi
+          if grep -r "projectId" dist/assets/*.js 2>/dev/null | head -1; then
+            echo "✓ projectId reference found"
+          else
+            echo "✗ projectId reference NOT found"
+          fi
+          echo "=== End of Firebase Config Check ==="
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
