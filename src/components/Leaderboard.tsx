@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { LeaderboardEntry, DifficultyName, QuestionMode } from '../types';
-import { getLeaderboard, searchByName } from '../services/leaderboardService';
+import { getLeaderboard } from '../services/leaderboardService';
 import { isFirebaseConfigured } from '../firebase';
 import './Leaderboard.css';
 
@@ -28,9 +28,6 @@ const Leaderboard: React.FC<Props> = ({
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchName, setSearchName] = useState('');
-  const [isSearchMode, setIsSearchMode] = useState(false);
-  const [searchResults, setSearchResults] = useState<LeaderboardEntry[]>([]);
 
   // 載入排行榜
   const fetchLeaderboard = useCallback(async () => {
@@ -55,53 +52,8 @@ const Leaderboard: React.FC<Props> = ({
   }, [difficulty, questionMode]);
 
   useEffect(() => {
-    if (!isSearchMode) {
-      fetchLeaderboard();
-    }
-  }, [difficulty, questionMode, isSearchMode, fetchLeaderboard]);
-
-  // 搜索玩家
-  const handleSearch = async () => {
-    if (!searchName.trim()) {
-      return;
-    }
-
-    if (!isFirebaseConfigured()) {
-      setError('排行榜功能尚未啟用');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setIsSearchMode(true);
-
-    try {
-      const results = await searchByName(searchName.trim(), difficulty, questionMode);
-      setSearchResults(results);
-    } catch (err) {
-      setError('查詢失敗，請稍後再試');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 清除搜索
-  const handleClearSearch = () => {
-    setSearchName('');
-    setIsSearchMode(false);
-    setSearchResults([]);
-  };
-
-  // 按 Enter 鍵搜索
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  // 顯示的資料
-  const displayEntries = isSearchMode ? searchResults : entries;
+    fetchLeaderboard();
+  }, [difficulty, questionMode, fetchLeaderboard]);
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -131,36 +83,7 @@ const Leaderboard: React.FC<Props> = ({
       <div className="leaderboard-modal">
         <button className="leaderboard-close" onClick={onClose}>✕</button>
 
-        <h2 className="leaderboard-title">
-          {isSearchMode ? `「${searchName}」的成績` : '排行榜'}
-        </h2>
-
-        <div className="leaderboard-search">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="輸入玩家名稱查詢..."
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
-            onKeyDown={handleKeyDown}
-            maxLength={20}
-          />
-          <button
-            className="search-btn"
-            onClick={handleSearch}
-            disabled={!searchName.trim()}
-          >
-            查詢
-          </button>
-          {isSearchMode && (
-            <button
-              className="search-clear-btn"
-              onClick={handleClearSearch}
-            >
-              返回排行榜
-            </button>
-          )}
-        </div>
+        <h2 className="leaderboard-title">排行榜</h2>
 
         <div className="leaderboard-filters">
           <div className="filter-group">
@@ -203,21 +126,17 @@ const Leaderboard: React.FC<Props> = ({
             <div className="leaderboard-error">{error}</div>
           )}
 
-          {!loading && !error && displayEntries.length === 0 && (
+          {!loading && !error && entries.length === 0 && (
             <div className="leaderboard-empty">
-              {isSearchMode ? (
-                <>找不到「{searchName}」的成績記錄</>
-              ) : (
-                <>目前還沒有記錄<br />成為第一個上榜的玩家吧！</>
-              )}
+              目前還沒有記錄<br />成為第一個上榜的玩家吧！
             </div>
           )}
 
-          {!loading && !error && displayEntries.length > 0 && (
+          {!loading && !error && entries.length > 0 && (
             <table className="leaderboard-table">
               <thead>
                 <tr>
-                  <th className="col-rank">{isSearchMode ? '#' : '名次'}</th>
+                  <th className="col-rank">名次</th>
                   <th className="col-name">玩家</th>
                   <th className="col-score">分數</th>
                   <th className="col-time">用時</th>
@@ -225,12 +144,12 @@ const Leaderboard: React.FC<Props> = ({
                 </tr>
               </thead>
               <tbody>
-                {displayEntries.map((entry, index) => (
+                {entries.map((entry, index) => (
                   <tr
                     key={entry.id}
                     className={highlightName && entry.name === highlightName ? 'highlight' : ''}
                   >
-                    <td className="col-rank">{isSearchMode ? index + 1 : getRankEmoji(index + 1)}</td>
+                    <td className="col-rank">{getRankEmoji(index + 1)}</td>
                     <td className="col-name">{entry.name}</td>
                     <td className="col-score">{entry.score}</td>
                     <td className="col-time">{formatTime(entry.timeUsed)}</td>
