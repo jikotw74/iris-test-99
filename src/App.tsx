@@ -8,7 +8,6 @@ import type { Difficulty, Question, NarrativeQuestion, QuestionMode, DifficultyN
 import { MULTIPLICATION_TABLES, DIFFICULTIES } from './types';
 import { generateQuestion, generateNarrativeQuestion, checkAnswer, checkNarrativeAnswer } from './utils';
 import { isNarrativeQuestion } from './types';
-import { isFirebaseConfigured } from './firebase';
 import './App.css';
 
 interface PenaltyState {
@@ -265,7 +264,7 @@ function App() {
           onResetTables={handleResetTables}
           questionMode={questionMode}
           onSelectMode={setQuestionMode}
-          onShowLeaderboard={isFirebaseConfigured() ? () => setShowLeaderboard(true) : undefined}
+          onShowLeaderboard={() => setShowLeaderboard(true)}
         />
         {showLeaderboard && (
           <Leaderboard
