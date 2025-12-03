@@ -46,3 +46,26 @@ export const DIFFICULTIES: Difficulty[] = [
   { name: '普通', timeLimit: 90, questionSpeed: 10000 },
   { name: '困難', timeLimit: 60, questionSpeed: 5000 },
 ];
+
+// 難度名稱類型
+export type DifficultyName = '簡單' | '普通' | '困難';
+
+// 排行榜項目
+export interface LeaderboardEntry {
+  id?: string;
+  name: string;           // 玩家名稱 (2-20字)
+  score: number;          // 答對題數
+  timeUsed: number;       // 使用時間(秒)
+  difficulty: DifficultyName;  // 難度
+  questionMode: QuestionMode;  // 題型
+  timestamp: Date;        // 記錄時間
+}
+
+// 遊戲結果（用於提交排行榜）
+export interface GameResult {
+  score: number;
+  attempts: number;
+  timeUsed: number;
+  difficulty: Difficulty;
+  questionMode: QuestionMode;
+}
