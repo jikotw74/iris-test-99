@@ -60,6 +60,14 @@ const Leaderboard: React.FC<Props> = ({
     return mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `${secs}秒`;
   };
 
+  const formatDate = (date: Date): string => {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${month}/${day} ${hours}:${minutes}`;
+  };
+
   const getRankEmoji = (rank: number): string => {
     switch (rank) {
       case 1: return '🥇';
@@ -131,7 +139,8 @@ const Leaderboard: React.FC<Props> = ({
                   <th className="col-rank">名次</th>
                   <th className="col-name">玩家</th>
                   <th className="col-score">分數</th>
-                  <th className="col-time">時間</th>
+                  <th className="col-time">用時</th>
+                  <th className="col-date">日期</th>
                 </tr>
               </thead>
               <tbody>
@@ -144,6 +153,7 @@ const Leaderboard: React.FC<Props> = ({
                     <td className="col-name">{entry.name}</td>
                     <td className="col-score">{entry.score}</td>
                     <td className="col-time">{formatTime(entry.timeUsed)}</td>
+                    <td className="col-date">{formatDate(entry.timestamp)}</td>
                   </tr>
                 ))}
               </tbody>
