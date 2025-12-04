@@ -12,6 +12,7 @@ interface Props {
   timeUsed: number;
   difficulty: DifficultyName;
   questionMode: QuestionMode;
+  selectedTables: number[];
   onRestart: () => void;
 }
 
@@ -21,6 +22,7 @@ const GameOver: React.FC<Props> = ({
   timeUsed,
   difficulty,
   questionMode,
+  selectedTables,
   onRestart,
 }) => {
   const accuracy = attempts > 0 ? Math.round((score / attempts) * 1000) / 10 : 0;
@@ -68,6 +70,7 @@ const GameOver: React.FC<Props> = ({
   };
 
   const modeLabel = questionMode === 'basic' ? '基本計算' : '敘述題型';
+  const tablesLabel = selectedTables.length === 8 ? '全部' : selectedTables.join(', ');
 
   return (
     <>
@@ -77,6 +80,7 @@ const GameOver: React.FC<Props> = ({
         <div className="game-info">
           <span className="info-badge">{difficulty}</span>
           <span className="info-badge">{modeLabel}</span>
+          <span className="info-badge">題庫: {tablesLabel}</span>
         </div>
 
         <div className="final-score">
@@ -135,6 +139,7 @@ const GameOver: React.FC<Props> = ({
           timeUsed={timeUsed}
           difficulty={difficulty}
           questionMode={questionMode}
+          selectedTables={selectedTables}
           onSubmitted={handleSubmitted}
           onSkip={handleSkip}
         />

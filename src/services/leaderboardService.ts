@@ -24,6 +24,7 @@ const docToEntry = (doc: { id: string; data: () => Record<string, unknown> }): L
     timeUsed: data.timeUsed as number,
     difficulty: data.difficulty as DifficultyName,
     questionMode: data.questionMode as QuestionMode,
+    selectedTables: (data.selectedTables as number[]) || [2, 3, 4, 5, 6, 7, 8, 9],
     timestamp: (data.timestamp as Timestamp)?.toDate() || new Date(),
   };
 };

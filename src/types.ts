@@ -58,6 +58,7 @@ export interface LeaderboardEntry {
   timeUsed: number;       // 使用時間(秒)
   difficulty: DifficultyName;  // 難度
   questionMode: QuestionMode;  // 題型
+  selectedTables: number[];    // 選擇的題庫 (2-9 的子集)
   timestamp: Date;        // 記錄時間
 }
 

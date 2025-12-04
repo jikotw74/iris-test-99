@@ -8,6 +8,7 @@ interface Props {
   timeUsed: number;
   difficulty: DifficultyName;
   questionMode: QuestionMode;
+  selectedTables: number[];
   onSubmitted: (name: string) => void;
   onSkip: () => void;
 }
@@ -20,6 +21,7 @@ const SubmitScore: React.FC<Props> = ({
   timeUsed,
   difficulty,
   questionMode,
+  selectedTables,
   onSubmitted,
   onSkip,
 }) => {
@@ -63,6 +65,7 @@ const SubmitScore: React.FC<Props> = ({
         timeUsed,
         difficulty,
         questionMode,
+        selectedTables,
       });
       onSubmitted(name.trim());
     } catch (err) {
@@ -74,6 +77,7 @@ const SubmitScore: React.FC<Props> = ({
   };
 
   const modeLabel = questionMode === 'basic' ? '基本計算' : '敘述題型';
+  const tablesLabel = selectedTables.length === 8 ? '全部' : selectedTables.join(', ');
 
   return (
     <div className="submit-score-overlay">
@@ -83,6 +87,7 @@ const SubmitScore: React.FC<Props> = ({
           <h2>恭喜！100% 正確率！</h2>
           <p className="submit-score-info">
             難度：{difficulty} | 題型：{modeLabel}<br />
+            題庫：{tablesLabel}<br />
             分數：{score} 題 | 時間：{timeUsed} 秒
           </p>
         </div>

@@ -78,6 +78,12 @@ const Leaderboard: React.FC<Props> = ({
     }
   };
 
+  const formatTables = (tables: number[]): string => {
+    if (!tables || tables.length === 0) return '-';
+    if (tables.length === 8) return '全部';
+    return tables.join(', ');
+  };
+
   return (
     <div className="leaderboard-overlay">
       <div className="leaderboard-modal">
@@ -139,6 +145,7 @@ const Leaderboard: React.FC<Props> = ({
                   <th className="col-rank">名次</th>
                   <th className="col-name">玩家</th>
                   <th className="col-score">分數</th>
+                  <th className="col-tables">題庫</th>
                   <th className="col-time">用時</th>
                   <th className="col-date">日期</th>
                 </tr>
@@ -152,6 +159,7 @@ const Leaderboard: React.FC<Props> = ({
                     <td className="col-rank">{getRankEmoji(index + 1)}</td>
                     <td className="col-name">{entry.name}</td>
                     <td className="col-score">{entry.score}</td>
+                    <td className="col-tables">{formatTables(entry.selectedTables)}</td>
                     <td className="col-time">{formatTime(entry.timeUsed)}</td>
                     <td className="col-date">{formatDate(entry.timestamp)}</td>
                   </tr>
