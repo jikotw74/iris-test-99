@@ -226,6 +226,12 @@
   color: #51cf66 !important;
 }
 
+.col-tables {
+  width: 80px;
+  font-size: 0.85rem;
+  color: #ffa94d !important;
+}
+
 .col-time {
   width: 60px;
   color: #4dabf7 !important;
@@ -276,6 +282,11 @@
 
   .col-score {
     width: 50px;
+  }
+
+  .col-tables {
+    width: 60px;
+    font-size: 0.75rem;
   }
 
   .col-time {

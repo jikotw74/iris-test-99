@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 排行榜 collection
+    match /leaderboard/{docId} {
+      // 所有人都可以讀取排行榜
+      allow read: if true;
+
+      // 允許寫入新成績（不需要驗證的公開排行榜）
+      allow create: if
+        // 驗證必要欄位存在
+        request.resource.data.keys().hasAll(['name', 'score', 'timeUsed', 'difficulty', 'questionMode', 'selectedTables', 'timestamp'])
+        // 驗證欄位類型
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 20
+        && request.resource.data.score is int
+        && request.resource.data.score >= 0
+        && request.resource.data.timeUsed is int
+        && request.resource.data.timeUsed >= 0
+        && request.resource.data.difficulty in ['簡單', '普通', '困難']
+        && request.resource.data.questionMode in ['basic', 'narrative']
+        // 驗證 selectedTables 是陣列且只包含 2-9 的數字
+        && request.resource.data.selectedTables is list
+        && request.resource.data.selectedTables.size() >= 1
+        && request.resource.data.selectedTables.size() <= 8
+        && request.resource.data.timestamp is timestamp;
+
+      // 不允許更新或刪除現有記錄
+      allow update, delete: if false;
+    }
+  }
+}

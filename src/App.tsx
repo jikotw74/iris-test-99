@@ -249,6 +249,7 @@ function App() {
         timeUsed={timeUsed}
         difficulty={difficultyName}
         questionMode={questionMode}
+        selectedTables={selectedTables}
         onRestart={handleRestart}
       />
     );
