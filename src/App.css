@@ -29,3 +29,14 @@
   }
 }
 
+/* iPad 直式模式優化 - 減少空白區域 */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  #root {
+    height: 95vh;
+    height: 95dvh;
+    max-height: 95vh;
+    max-height: 95dvh;
+    padding: 0.75rem;
+  }
+}
+

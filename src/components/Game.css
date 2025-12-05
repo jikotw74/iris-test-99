@@ -316,3 +316,85 @@
     font-size: 1.5rem;
   }
 }
+
+/* ===================================
+   iPad 直式模式優化
+   =================================== */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .game {
+    max-width: 680px;
+    padding: 1.25rem;
+  }
+
+  .game-header {
+    font-size: 1.4rem;
+    padding: 1rem 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .question {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .answer-input {
+    font-size: 3rem;
+    padding: 1rem 2rem;
+    min-height: 80px;
+    max-width: 320px;
+  }
+
+  .question-progress {
+    max-width: 450px;
+    margin-top: 1.5rem;
+  }
+
+  .progress-label {
+    font-size: 1rem;
+  }
+
+  .progress-bar {
+    height: 14px;
+  }
+
+  .hint {
+    margin-top: 1.25rem;
+    font-size: 1rem;
+  }
+
+  .narrative-question {
+    font-size: 1.5rem;
+    padding: 1.25rem 1.75rem;
+    max-width: 580px;
+    line-height: 1.7;
+  }
+
+  .narrative-hint {
+    font-size: 1.05rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .narrative-formula-boxes {
+    gap: 0.6rem;
+    font-size: 2.25rem;
+  }
+
+  .formula-box {
+    width: 60px;
+    height: 72px;
+    font-size: 2.25rem;
+  }
+
+  .formula-box.answer-box {
+    width: 85px;
+  }
+
+  .formula-operator,
+  .formula-result {
+    font-size: 2rem;
+  }
+
+  .answer-unit {
+    font-size: 1.5rem;
+  }
+}

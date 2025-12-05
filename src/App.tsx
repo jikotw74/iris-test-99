@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import DifficultySelector from './components/DifficultySelector';
+import DifficultySelector, { type FontSize } from './components/DifficultySelector';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
 import PenaltyModal from './components/PenaltyModal';
@@ -9,6 +9,20 @@ import { MULTIPLICATION_TABLES, DIFFICULTIES } from './types';
 import { generateQuestion, generateNarrativeQuestion, checkAnswer, checkNarrativeAnswer } from './utils';
 import { isNarrativeQuestion } from './types';
 import './App.css';
+
+const FONT_SIZE_KEY = 'fontSize';
+
+const getFontSizeFromStorage = (): FontSize => {
+  try {
+    const stored = localStorage.getItem(FONT_SIZE_KEY);
+    if (stored === 'normal' || stored === 'large' || stored === 'extra-large') {
+      return stored;
+    }
+  } catch {
+    // localStorage not available
+  }
+  return 'normal';
+};
 
 interface PenaltyState {
   question: Question | NarrativeQuestion;
@@ -32,6 +46,7 @@ function App() {
   const [penaltyError, setPenaltyError] = useState('');
   const [questionMode, setQuestionMode] = useState<QuestionMode>('basic');
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [fontSize, setFontSize] = useState<FontSize>(getFontSizeFromStorage);
   const questionTimerRef = useRef<number | null>(null);
   const questionDeadlineRef = useRef<number | null>(null);
   const isPenaltyActive = Boolean(penaltyState);
@@ -48,6 +63,22 @@ function App() {
   const handleResetTables = () => {
     setSelectedTables([...MULTIPLICATION_TABLES]);
   };
+
+  const handleFontSizeChange = useCallback((size: FontSize) => {
+    setFontSize(size);
+    try {
+      localStorage.setItem(FONT_SIZE_KEY, size);
+    } catch {
+      // localStorage not available
+    }
+  }, []);
+
+  // 套用字體大小到 root 元素
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove('font-normal', 'font-large', 'font-extra-large');
+    root.classList.add(`font-${fontSize}`);
+  }, [fontSize]);
 
   const clearQuestionTimer = useCallback(() => {
     if (questionTimerRef.current) {
@@ -266,6 +297,8 @@ function App() {
           questionMode={questionMode}
           onSelectMode={setQuestionMode}
           onShowLeaderboard={() => setShowLeaderboard(true)}
+          fontSize={fontSize}
+          onFontSizeChange={handleFontSizeChange}
         />
         {showLeaderboard && (
           <Leaderboard

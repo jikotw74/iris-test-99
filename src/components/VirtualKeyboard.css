@@ -4,14 +4,38 @@
   flex-shrink: 0;
 }
 
-.keyboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(60px, 1fr));
+/* 整體鍵盤佈局：左側數字區 + 右側送出 */
+.keyboard-layout {
+  display: flex;
   gap: 0.5rem;
-  max-width: 320px;
+  max-width: 380px;
   margin: 0 auto;
+  align-items: stretch;
 }
 
+/* 左側數字區容器 */
+.keyboard-numpad {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* 數字九宮格 3x3 */
+.numpad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+/* 底部 刪除 + 0 */
+.numpad-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+/* 通用按鈕樣式 */
 .keyboard-button {
   padding: 0.75rem;
   font-size: 1.1rem;
@@ -23,6 +47,7 @@
   font-weight: bold;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  color: #f8f9fa;
 }
 
 .keyboard-button:hover {
@@ -34,6 +59,7 @@
   transform: scale(0.95);
 }
 
+/* 刪除按鈕 */
 .keyboard-button.backspace {
   background-color: #ff6b6b;
   border-color: #ff6b6b;
@@ -43,41 +69,73 @@
   background-color: #ff5252;
 }
 
-.keyboard-button.submit {
-  background-color: #51cf66;
-  border-color: #51cf66;
-}
-
-.keyboard-button.submit:hover {
-  background-color: #40c057;
-}
-
+/* 0 按鈕 */
 .keyboard-button.zero {
-  grid-column: 2;
+  /* 不需要特殊樣式了，因為已經在 grid 中 */
 }
 
 .keyboard-button.action {
   font-size: 0.9rem;
 }
 
+/* 右側大送出按鈕 */
+.keyboard-button.submit-large {
+  width: 72px;
+  min-width: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #51cf66, #40c057);
+  border: 2px solid #51cf66;
+  font-size: 1rem;
+  padding: 1rem 0.5rem;
+}
+
+.keyboard-button.submit-large:hover {
+  background: linear-gradient(135deg, #40c057, #37b24d);
+  transform: scale(1.03);
+}
+
+.submit-icon {
+  font-size: 1.5rem;
+}
+
+.submit-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* 禁用狀態 */
 .keyboard-button:disabled,
 .keyboard-button:disabled:hover,
 .keyboard-button:disabled:active {
   background-color: #1a1a1a;
+  background: #1a1a1a;
   border-color: #3a3a3a;
   color: #555;
   cursor: not-allowed;
   transform: none;
 }
 
+/* ===================================
+   響應式設計
+   =================================== */
+
 @media (max-width: 480px) {
   .virtual-keyboard {
     padding-top: 0.5rem;
   }
 
-  .keyboard-grid {
+  .keyboard-layout {
     gap: 0.4rem;
-    max-width: 280px;
+    max-width: 340px;
+  }
+
+  .numpad-grid,
+  .numpad-bottom {
+    gap: 0.4rem;
   }
 
   .keyboard-button {
@@ -88,6 +146,21 @@
   .keyboard-button.action {
     font-size: 0.85rem;
   }
+
+  .keyboard-button.submit-large {
+    width: 64px;
+    min-width: 64px;
+    gap: 0.4rem;
+    padding: 0.75rem 0.4rem;
+  }
+
+  .submit-icon {
+    font-size: 1.3rem;
+  }
+
+  .submit-text {
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-height: 700px) {
@@ -95,9 +168,14 @@
     padding-top: 0.5rem;
   }
 
-  .keyboard-grid {
+  .keyboard-layout {
     gap: 0.35rem;
-    max-width: 280px;
+    max-width: 320px;
+  }
+
+  .numpad-grid,
+  .numpad-bottom {
+    gap: 0.35rem;
   }
 
   .keyboard-button {
@@ -108,16 +186,77 @@
   .keyboard-button.action {
     font-size: 0.8rem;
   }
+
+  .keyboard-button.submit-large {
+    width: 60px;
+    min-width: 60px;
+    gap: 0.35rem;
+    padding: 0.5rem 0.35rem;
+  }
+
+  .submit-icon {
+    font-size: 1.2rem;
+  }
+
+  .submit-text {
+    font-size: 0.75rem;
+  }
 }
 
 @media (max-height: 600px) {
-  .keyboard-grid {
+  .keyboard-layout {
     gap: 0.3rem;
-    max-width: 260px;
+    max-width: 300px;
+  }
+
+  .numpad-grid,
+  .numpad-bottom {
+    gap: 0.3rem;
   }
 
   .keyboard-button {
     padding: 0.4rem;
     font-size: 0.9rem;
+  }
+
+  .keyboard-button.submit-large {
+    width: 56px;
+    min-width: 56px;
+  }
+}
+
+/* iPad 直式模式優化 */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .keyboard-layout {
+    max-width: 420px;
+    gap: 0.6rem;
+  }
+
+  .numpad-grid,
+  .numpad-bottom {
+    gap: 0.6rem;
+  }
+
+  .keyboard-button {
+    padding: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .keyboard-button.action {
+    font-size: 1rem;
+  }
+
+  .keyboard-button.submit-large {
+    width: 88px;
+    min-width: 88px;
+    gap: 0.6rem;
+  }
+
+  .submit-icon {
+    font-size: 1.8rem;
+  }
+
+  .submit-text {
+    font-size: 1.1rem;
   }
 }

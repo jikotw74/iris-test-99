@@ -74,3 +74,47 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+/* ===================================
+   字體大小設定 - 全域套用
+   =================================== */
+
+/* 標準字體 (預設) */
+html.font-normal {
+  font-size: 16px;
+}
+
+/* 大字模式 */
+html.font-large {
+  font-size: 20px;
+}
+
+/* 特大字模式 */
+html.font-extra-large {
+  font-size: 24px;
+}
+
+/* 確保 RWD 不會覆蓋字體大小設定 */
+@media (max-width: 480px) {
+  html.font-normal {
+    font-size: 15px;
+  }
+  html.font-large {
+    font-size: 18px;
+  }
+  html.font-extra-large {
+    font-size: 21px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  html.font-normal {
+    font-size: 17px;
+  }
+  html.font-large {
+    font-size: 21px;
+  }
+  html.font-extra-large {
+    font-size: 25px;
+  }
+}

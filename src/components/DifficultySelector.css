@@ -708,3 +708,215 @@
     font-size: 0.9rem;
   }
 }
+
+/* ===================================
+   iPad 直式模式優化 - 減少空白區域
+   =================================== */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .difficulty-selector {
+    max-width: 680px;
+    padding: 1rem;
+  }
+
+  .hero {
+    margin-bottom: 1.75rem;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .hero-title {
+    font-size: 2.25rem;
+  }
+
+  .hero-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .hero-leaderboard-btn {
+    margin-top: 1rem;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .step-section {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .step-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+
+  .step-title {
+    font-size: 1.15rem;
+  }
+
+  .step-hint {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .mode-buttons {
+    gap: 1rem;
+  }
+
+  .mode-card {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .mode-icon {
+    font-size: 2rem;
+  }
+
+  .mode-name {
+    font-size: 1.1rem;
+  }
+
+  .mode-desc {
+    font-size: 0.9rem;
+  }
+
+  .table-grid {
+    gap: 0.6rem;
+  }
+
+  .table-chip {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .difficulty-grid {
+    gap: 1rem;
+  }
+
+  .difficulty-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .difficulty-name {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .stat {
+    font-size: 0.85rem;
+  }
+
+  .stat-icon {
+    font-size: 0.9rem;
+  }
+
+  .advanced-toggle {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .advanced-content {
+    padding: 1.25rem;
+  }
+
+  .field-label {
+    font-size: 0.9rem;
+  }
+
+  .input-group input {
+    padding: 0.7rem 1rem;
+    font-size: 1.05rem;
+  }
+
+  .custom-submit {
+    padding: 0.85rem 1.5rem;
+    font-size: 1.05rem;
+  }
+}
+
+/* ===================================
+   字體大小設定區塊
+   =================================== */
+
+.font-size-section {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: #14151a;
+  border: 1px solid #2a2b35;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.font-size-label {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.font-size-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.font-size-btn {
+  padding: 0.5rem 1rem;
+  background: #1a1b22;
+  border: 1.5px solid #2a2b35;
+  border-radius: 8px;
+  color: #d1d5db;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-size-btn:hover {
+  border-color: #4a4b5a;
+  background: #22232d;
+}
+
+.font-size-btn.active {
+  background: linear-gradient(135deg, rgba(100, 108, 255, 0.2), rgba(124, 77, 255, 0.15));
+  border-color: #646cff;
+  color: #c7caff;
+}
+
+@media (max-width: 480px) {
+  .font-size-section {
+    padding: 0.6rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .font-size-label {
+    font-size: 0.8rem;
+  }
+
+  .font-size-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .font-size-section {
+    padding: 1rem 1.25rem;
+  }
+
+  .font-size-label {
+    font-size: 1rem;
+  }
+
+  .font-size-btn {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}

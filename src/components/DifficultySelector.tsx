@@ -5,6 +5,8 @@ import './DifficultySelector.css';
 
 const TABLE_ERROR_MESSAGE = '請先選擇題庫 (至少一個乘法表)';
 
+export type FontSize = 'normal' | 'large' | 'extra-large';
+
 interface Props {
   onSelectDifficulty: (difficulty: Difficulty) => void;
   selectedTables: number[];
@@ -13,6 +15,8 @@ interface Props {
   questionMode: QuestionMode;
   onSelectMode: (mode: QuestionMode) => void;
   onShowLeaderboard?: () => void;
+  fontSize: FontSize;
+  onFontSizeChange: (size: FontSize) => void;
 }
 
 const DifficultySelector: React.FC<Props> = ({
@@ -23,6 +27,8 @@ const DifficultySelector: React.FC<Props> = ({
   questionMode,
   onSelectMode,
   onShowLeaderboard,
+  fontSize,
+  onFontSizeChange,
 }) => {
   const [customTime, setCustomTime] = useState('60');
   const [customInterval, setCustomInterval] = useState('5');
@@ -253,6 +259,34 @@ const DifficultySelector: React.FC<Props> = ({
             </form>
           </div>
         )}
+      </section>
+
+      {/* 字體大小設定 */}
+      <section className="font-size-section">
+        <div className="font-size-label">字體大小</div>
+        <div className="font-size-controls">
+          <button
+            type="button"
+            className={`font-size-btn ${fontSize === 'normal' ? 'active' : ''}`}
+            onClick={() => onFontSizeChange('normal')}
+          >
+            標準
+          </button>
+          <button
+            type="button"
+            className={`font-size-btn ${fontSize === 'large' ? 'active' : ''}`}
+            onClick={() => onFontSizeChange('large')}
+          >
+            大字
+          </button>
+          <button
+            type="button"
+            className={`font-size-btn ${fontSize === 'extra-large' ? 'active' : ''}`}
+            onClick={() => onFontSizeChange('extra-large')}
+          >
+            特大
+          </button>
+        </div>
       </section>
     </div>
   );
