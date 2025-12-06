@@ -153,7 +153,7 @@
 }
 
 .formula-box.answer-box {
-  width: clamp(48px, 14vw, 64px);
+  width: clamp(56px, 18vw, 80px);
 }
 
 .formula-operator {
@@ -315,7 +315,7 @@
   }
 
   .formula-box.answer-box {
-    width: 38px;
+    width: 48px;
   }
 
   .formula-operator {
@@ -382,7 +382,7 @@
   }
 
   .formula-box.answer-box {
-    width: 76px;
+    width: 96px;
   }
 
   .formula-operator {
