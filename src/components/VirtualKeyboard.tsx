@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './VirtualKeyboard.css';
 
 interface Props {
@@ -11,6 +11,14 @@ interface Props {
 const VirtualKeyboard: React.FC<Props> = ({ onNumberClick, onBackspace, onSubmit, disabled }) => {
   const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
+  // 使用 onPointerDown 替代 onClick，減少手機觸控延遲
+  const handlePointerDown = useCallback((e: React.PointerEvent, callback: () => void) => {
+    e.preventDefault(); // 防止觸發後續的 click 事件和觸控延遲
+    if (!disabled) {
+      callback();
+    }
+  }, [disabled]);
+
   return (
     <div className="virtual-keyboard">
       <div className="keyboard-layout">
@@ -21,7 +29,7 @@ const VirtualKeyboard: React.FC<Props> = ({ onNumberClick, onBackspace, onSubmit
               <button
                 key={num}
                 className="keyboard-button"
-                onClick={() => onNumberClick(num)}
+                onPointerDown={(e) => handlePointerDown(e, () => onNumberClick(num))}
                 disabled={disabled}
               >
                 {num}
@@ -31,14 +39,14 @@ const VirtualKeyboard: React.FC<Props> = ({ onNumberClick, onBackspace, onSubmit
           <div className="numpad-bottom">
             <button
               className="keyboard-button backspace action"
-              onClick={onBackspace}
+              onPointerDown={(e) => handlePointerDown(e, onBackspace)}
               disabled={disabled}
             >
               ← 刪除
             </button>
             <button
               className="keyboard-button zero"
-              onClick={() => onNumberClick('0')}
+              onPointerDown={(e) => handlePointerDown(e, () => onNumberClick('0'))}
               disabled={disabled}
             >
               0
@@ -48,7 +56,7 @@ const VirtualKeyboard: React.FC<Props> = ({ onNumberClick, onBackspace, onSubmit
         {/* 右側送出按鈕 */}
         <button
           className="keyboard-button submit-large"
-          onClick={onSubmit}
+          onPointerDown={(e) => handlePointerDown(e, onSubmit)}
           disabled={disabled}
         >
           <span className="submit-icon">✓</span>

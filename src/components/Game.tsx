@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import type { Question, NarrativeQuestion, QuestionMode } from '../types';
 import { isNarrativeQuestion } from '../types';
 import VirtualKeyboard from './VirtualKeyboard';
@@ -32,18 +32,25 @@ const Game: React.FC<Props> = ({
   // 基本模式限制 2 位數，敘述題模式限制 4 位數（X × Y = ZZ）
   const maxInputLength = questionMode === 'narrative' ? 4 : 2;
 
+  // 使用 useRef 追蹤最新的 userInput，避免快速點擊時的閉包問題
+  const userInputRef = useRef(userInput);
+  useEffect(() => {
+    userInputRef.current = userInput;
+  }, [userInput]);
+
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     if (isPenaltyActive) return;
+    const currentInput = userInputRef.current;
     if (e.key >= '0' && e.key <= '9') {
-      if (userInput.length < maxInputLength) {
-        onInputChange(userInput + e.key);
+      if (currentInput.length < maxInputLength) {
+        onInputChange(currentInput + e.key);
       }
     } else if (e.key === 'Backspace') {
-      onInputChange(userInput.slice(0, -1));
+      onInputChange(currentInput.slice(0, -1));
     } else if (e.key === 'Enter') {
       onSubmit();
     }
-  }, [userInput, onInputChange, onSubmit, isPenaltyActive, maxInputLength]);
+  }, [onInputChange, onSubmit, isPenaltyActive, maxInputLength]);
 
   useEffect(() => {
     if (isPenaltyActive) return;
@@ -53,15 +60,16 @@ const Game: React.FC<Props> = ({
     };
   }, [handleKeyPress, isPenaltyActive]);
 
-  const handleNumberClick = (num: string) => {
-    if (userInput.length < maxInputLength) {
-      onInputChange(userInput + num);
+  const handleNumberClick = useCallback((num: string) => {
+    const currentInput = userInputRef.current;
+    if (currentInput.length < maxInputLength) {
+      onInputChange(currentInput + num);
     }
-  };
+  }, [onInputChange, maxInputLength]);
 
-  const handleBackspace = () => {
-    onInputChange(userInput.slice(0, -1));
-  };
+  const handleBackspace = useCallback(() => {
+    onInputChange(userInputRef.current.slice(0, -1));
+  }, [onInputChange]);
 
   const countdownSeconds = Math.max(0, Math.ceil(questionCountdownMs / 1000));
   const progressPercent = questionIntervalMs
