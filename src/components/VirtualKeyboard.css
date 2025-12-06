@@ -1,14 +1,19 @@
 .virtual-keyboard {
   margin-top: auto;
-  padding-top: 0.75rem;
+  padding-top: 0.35rem;
   flex-shrink: 0;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 整體鍵盤佈局：左側數字區 + 右側送出 */
 .keyboard-layout {
   display: flex;
   gap: 0.5rem;
-  max-width: 380px;
+  max-width: 400px;
+  width: 100%;
   margin: 0 auto;
   align-items: stretch;
 }
@@ -23,22 +28,29 @@
 
 /* 數字九宮格 3x3 */
 .numpad-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.numpad-grid .keyboard-button {
+  flex: 1 1 calc(33.333% - 0.35rem);
 }
 
 /* 底部 刪除 + 0 */
 .numpad-bottom {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 0.5rem;
+}
+
+.numpad-bottom .keyboard-button {
+  flex: 1 1 calc(50% - 0.25rem);
 }
 
 /* 通用按鈕樣式 */
 .keyboard-button {
-  padding: 0.75rem;
-  font-size: 1.1rem;
+  padding: 1rem 0.5rem;
+  font-size: 1.4rem;
   background-color: #1a1a1a;
   border: 2px solid #646cff;
   border-radius: 8px;
@@ -80,8 +92,8 @@
 
 /* 右側大送出按鈕 */
 .keyboard-button.submit-large {
-  width: 72px;
-  min-width: 72px;
+  width: 80px;
+  min-width: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,11 +111,11 @@
 }
 
 .submit-icon {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
 }
 
 .submit-text {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -125,7 +137,7 @@
 
 @media (max-width: 480px) {
   .virtual-keyboard {
-    padding-top: 0.5rem;
+    padding-top: 0.25rem;
   }
 
   .keyboard-layout {
@@ -133,14 +145,18 @@
     max-width: 340px;
   }
 
+  .keyboard-numpad {
+    gap: 0.4rem;
+  }
+
   .numpad-grid,
   .numpad-bottom {
     gap: 0.4rem;
   }
 
   .keyboard-button {
-    padding: 0.6rem;
-    font-size: 1rem;
+    padding: 0.85rem 0.4rem;
+    font-size: 1.25rem;
   }
 
   .keyboard-button.action {
@@ -148,29 +164,33 @@
   }
 
   .keyboard-button.submit-large {
-    width: 64px;
-    min-width: 64px;
-    gap: 0.4rem;
-    padding: 0.75rem 0.4rem;
+    width: 68px;
+    min-width: 68px;
+    gap: 0.35rem;
+    padding: 0.75rem 0.35rem;
   }
 
   .submit-icon {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
 
   .submit-text {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 }
 
 @media (max-height: 700px) {
   .virtual-keyboard {
-    padding-top: 0.5rem;
+    padding-top: 0.25rem;
   }
 
   .keyboard-layout {
     gap: 0.35rem;
     max-width: 320px;
+  }
+
+  .keyboard-numpad {
+    gap: 0.35rem;
   }
 
   .numpad-grid,
@@ -179,8 +199,8 @@
   }
 
   .keyboard-button {
-    padding: 0.5rem;
-    font-size: 0.95rem;
+    padding: 0.7rem 0.35rem;
+    font-size: 1.15rem;
   }
 
   .keyboard-button.action {
@@ -188,18 +208,18 @@
   }
 
   .keyboard-button.submit-large {
-    width: 60px;
-    min-width: 60px;
-    gap: 0.35rem;
-    padding: 0.5rem 0.35rem;
+    width: 64px;
+    min-width: 64px;
+    gap: 0.3rem;
+    padding: 0.6rem 0.3rem;
   }
 
   .submit-icon {
-    font-size: 1.2rem;
+    font-size: 1.35rem;
   }
 
   .submit-text {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -209,54 +229,113 @@
     max-width: 300px;
   }
 
+  .keyboard-numpad {
+    gap: 0.3rem;
+  }
+
   .numpad-grid,
   .numpad-bottom {
     gap: 0.3rem;
   }
 
   .keyboard-button {
-    padding: 0.4rem;
-    font-size: 0.9rem;
+    padding: 0.55rem 0.3rem;
+    font-size: 1rem;
   }
 
   .keyboard-button.submit-large {
-    width: 56px;
-    min-width: 56px;
+    width: 58px;
+    min-width: 58px;
+  }
+}
+
+/* 手機橫向模式 - 鍵盤佔右側 (佔 2/3 寬度) */
+@media (max-height: 500px) and (orientation: landscape) {
+  .virtual-keyboard {
+    margin-top: 0;
+    padding-top: 1.25rem;
+    flex-shrink: 0;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 55%;
+  }
+
+  .keyboard-layout {
+    gap: 0.35rem;
+    max-width: 280px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .keyboard-numpad {
+    gap: 0.35rem;
+  }
+
+  .numpad-grid,
+  .numpad-bottom {
+    gap: 0.35rem;
+  }
+
+  .keyboard-button {
+    padding: 0.6rem 0.35rem;
+    font-size: 1.1rem;
+    border-radius: 6px;
+  }
+
+  .keyboard-button.action {
+    font-size: 0.75rem;
+  }
+
+  .keyboard-button.submit-large {
+    width: 60px;
+    min-width: 60px;
+    gap: 0.25rem;
+    padding: 0.5rem 0.25rem;
+  }
+
+  .submit-icon {
+    font-size: 1.25rem;
+  }
+
+  .submit-text {
+    font-size: 0.7rem;
   }
 }
 
 /* iPad 直式模式優化 */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
   .keyboard-layout {
-    max-width: 420px;
-    gap: 0.6rem;
+    max-width: 380px;
+    gap: 0.5rem;
   }
 
   .numpad-grid,
   .numpad-bottom {
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
 
   .keyboard-button {
-    padding: 1rem;
-    font-size: 1.3rem;
+    padding: 0.75rem;
+    font-size: 1.1rem;
   }
 
   .keyboard-button.action {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .keyboard-button.submit-large {
-    width: 88px;
-    min-width: 88px;
-    gap: 0.6rem;
+    width: 72px;
+    min-width: 72px;
+    gap: 0.5rem;
   }
 
   .submit-icon {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   .submit-text {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
 }

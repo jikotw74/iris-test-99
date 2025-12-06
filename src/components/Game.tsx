@@ -29,16 +29,21 @@ const Game: React.FC<Props> = ({
   isPenaltyActive,
   questionMode,
 }) => {
+  // 基本模式限制 2 位數，敘述題模式限制 4 位數（X × Y = ZZ）
+  const maxInputLength = questionMode === 'narrative' ? 4 : 2;
+
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     if (isPenaltyActive) return;
     if (e.key >= '0' && e.key <= '9') {
-      onInputChange(userInput + e.key);
+      if (userInput.length < maxInputLength) {
+        onInputChange(userInput + e.key);
+      }
     } else if (e.key === 'Backspace') {
       onInputChange(userInput.slice(0, -1));
     } else if (e.key === 'Enter') {
       onSubmit();
     }
-  }, [userInput, onInputChange, onSubmit, isPenaltyActive]);
+  }, [userInput, onInputChange, onSubmit, isPenaltyActive, maxInputLength]);
 
   useEffect(() => {
     if (isPenaltyActive) return;
@@ -49,7 +54,9 @@ const Game: React.FC<Props> = ({
   }, [handleKeyPress, isPenaltyActive]);
 
   const handleNumberClick = (num: string) => {
-    onInputChange(userInput + num);
+    if (userInput.length < maxInputLength) {
+      onInputChange(userInput + num);
+    }
   };
 
   const handleBackspace = () => {
