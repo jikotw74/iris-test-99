@@ -1,186 +1,101 @@
+/* ===================================
+   Game 頁面 - 簡化版手機優先設計
+   =================================== */
+
 .game {
   text-align: center;
-  padding: 0.5rem;
-  max-width: 800px;
   width: 100%;
   height: 100%;
   max-height: 100%;
   margin: 0 auto;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  gap: 0.5rem;
 }
+
+/* ===================================
+   Header - 分數與時間
+   =================================== */
 
 .game-header {
   display: flex;
   justify-content: space-between;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #1a1a1a;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: rgba(26, 26, 26, 0.8);
   border-radius: 8px;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
   flex-shrink: 0;
-}
-
-@media (max-width: 480px) {
-  .game {
-    padding: 0.35rem;
-  }
-
-  .game-header {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.75rem;
-    gap: 0.35rem;
-    margin-bottom: 0.5rem;
-  }
-}
-
-@media (max-height: 700px) {
-  .game-header {
-    margin-bottom: 0.5rem;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* 手機橫向模式 - 左右分欄佈局 (題目 1/3, 鍵盤 2/3) */
-@media (max-height: 500px) and (orientation: landscape) {
-  .game {
-    flex-direction: row;
-    padding: 0.25rem 0.5rem;
-    gap: 0.5rem;
-    align-items: stretch;
-  }
-
-  .game-header {
-    position: absolute;
-    top: 0.25rem;
-    left: 0.5rem;
-    right: 0.5rem;
-    margin-bottom: 0;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    z-index: 10;
-  }
 }
 
 .score {
   color: #51cf66;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .timer {
   color: #ff6b6b;
-  font-weight: bold;
+  font-weight: 700;
 }
 
+/* ===================================
+   題目區域
+   =================================== */
+
 .question-display {
-  margin-bottom: 0.5rem;
-  flex-shrink: 1;
-  flex-grow: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  min-height: 0;
+  gap: 0.5rem;
 }
 
+/* 基本計算模式 */
 .question {
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: 800;
   color: #646cff;
-  margin-bottom: 0.5rem;
+  line-height: 1.2;
 }
 
 .answer-input {
-  font-size: 2rem;
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+  font-weight: 700;
   color: #fff;
-  background-color: #1a1a1a;
+  background: #1a1a1a;
   border: 3px solid #646cff;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: 240px;
+  border-radius: 12px;
+  padding: 0.5rem 1.5rem;
+  min-width: 120px;
+  max-width: 200px;
 }
 
-@media (max-width: 480px) {
-  .question {
-    font-size: 2rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .answer-input {
-    font-size: 1.75rem;
-    padding: 0.4rem 0.75rem;
-    min-height: 44px;
-    max-width: 200px;
-  }
-}
-
-@media (max-height: 700px) {
-  .question-display {
-    margin-bottom: 0.35rem;
-  }
-
-  .question {
-    font-size: 2rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .answer-input {
-    font-size: 1.75rem;
-    padding: 0.4rem 0.75rem;
-    min-height: 44px;
-  }
-}
-
-/* 手機橫向模式 - 題目區佔左側 (約 1/3) */
-@media (max-height: 500px) and (orientation: landscape) {
-  .question-display {
-    flex: 0 0 auto;
-    max-width: 40%;
-    margin-bottom: 0;
-    padding-top: 1.5rem;
-    justify-content: center;
-  }
-
-  .question {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .answer-input {
-    font-size: 1.25rem;
-    padding: 0.3rem 0.5rem;
-    min-height: 32px;
-    max-width: 140px;
-  }
-}
+/* ===================================
+   進度條
+   =================================== */
 
 .question-progress {
-  margin: 0.5rem auto 0;
-  max-width: 300px;
-  text-align: left;
+  width: 100%;
+  max-width: 280px;
   flex-shrink: 0;
 }
 
 .progress-label {
   font-size: 0.75rem;
-  color: #ddd;
-  margin-bottom: 0.15rem;
+  color: #888;
+  margin-bottom: 0.25rem;
+  text-align: center;
 }
 
 .progress-bar {
-  width: 100%;
-  height: 8px;
-  background-color: #2a2a2a;
+  height: 6px;
+  background: #2a2a2a;
   border-radius: 999px;
   overflow: hidden;
-  border: 1px solid #3a3a3a;
 }
 
 .progress-fill {
@@ -189,37 +104,137 @@
   transition: width 0.1s linear;
 }
 
-.hint {
-  margin-top: 0.5rem;
-  color: #888;
-  font-size: 0.75rem;
-  flex-shrink: 0;
+/* ===================================
+   敘述題樣式
+   =================================== */
+
+.narrative-question {
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  line-height: 1.5;
+  color: #f8f9fa;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 1px solid #3a3a5a;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  max-width: 400px;
+  text-align: left;
 }
 
-@media (max-height: 700px) {
-  .question-progress {
-    margin: 0.35rem auto 0;
+.narrative-hint {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+.narrative-formula-boxes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.formula-box {
+  width: clamp(36px, 10vw, 48px);
+  height: clamp(42px, 12vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  font-weight: 700;
+  color: #fff;
+}
+
+.formula-box.filled {
+  background: #2a2a4a;
+  border-color: #51cf66;
+}
+
+.formula-box.answer-box {
+  width: clamp(48px, 14vw, 64px);
+}
+
+.formula-operator {
+  color: #646cff;
+  font-weight: 700;
+  font-size: clamp(1rem, 3.5vw, 1.4rem);
+}
+
+.answer-unit {
+  color: #888;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  margin-left: 0.25rem;
+}
+
+/* ===================================
+   提示文字
+   =================================== */
+
+.hint {
+  color: #666;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  padding: 0.25rem 0;
+}
+
+/* ===================================
+   小螢幕手機優化 (≤480px)
+   =================================== */
+
+@media (max-width: 480px) {
+  .game {
+    padding: 0.35rem;
+    gap: 0.35rem;
   }
 
-  .progress-bar {
-    height: 6px;
+  .game-header {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .narrative-question {
+    padding: 0.6rem 0.75rem;
   }
 
   .hint {
-    margin-top: 0.35rem;
-    font-size: 0.7rem;
+    display: none;
   }
 }
 
-/* 手機橫向模式 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .question-progress {
-    margin: 0.25rem auto 0;
-    max-width: 200px;
+/* ===================================
+   短螢幕優化 (≤600px 高度)
+   =================================== */
+
+@media (max-height: 600px) {
+  .game {
+    gap: 0.25rem;
+  }
+
+  .game-header {
+    padding: 0.35rem 0.5rem;
+  }
+
+  .question-display {
+    gap: 0.35rem;
+  }
+
+  .question {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
+
+  .answer-input {
+    padding: 0.4rem 1rem;
+  }
+
+  .narrative-question {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
   }
 
   .progress-label {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
   }
 
   .progress-bar {
@@ -231,283 +246,154 @@
   }
 }
 
-/* 敘述題樣式 */
-.narrative-question {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #f8f9fa;
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  border: 1px solid #3a3a5a;
-  border-radius: 10px;
-  padding: 0.6rem 1rem;
-  margin-bottom: 0.5rem;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-}
+/* ===================================
+   手機橫向模式 - 左右分欄
+   =================================== */
 
-.narrative-hint {
-  font-size: 0.75rem;
-  color: #888;
-  margin-bottom: 0.5rem;
-}
-
-.narrative-answer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-}
-
-.answer-value {
-  min-width: 60px;
-}
-
-.answer-unit {
-  color: #888;
-  font-size: 1rem;
-}
-
-@media (max-width: 480px) {
-  .narrative-question {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
-    line-height: 1.4;
+@media (max-height: 450px) and (orientation: landscape) {
+  .game {
+    flex-direction: row;
+    padding: 0.25rem 0.5rem;
+    gap: 0.75rem;
   }
 
-  .narrative-hint {
+  .game-header {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    padding: 0.2rem 0.5rem;
     font-size: 0.7rem;
+    z-index: 10;
   }
-}
 
-@media (max-height: 700px) {
+  .question-display {
+    flex: 0 0 40%;
+    padding-top: 1.5rem;
+    gap: 0.25rem;
+  }
+
+  .question {
+    font-size: 1.5rem;
+  }
+
+  .answer-input {
+    font-size: 1.25rem;
+    padding: 0.3rem 0.75rem;
+    min-width: 80px;
+    max-width: 120px;
+  }
+
+  .question-progress {
+    max-width: 150px;
+  }
+
+  .progress-label {
+    font-size: 0.55rem;
+  }
+
+  .progress-bar {
+    height: 4px;
+  }
+
   .narrative-question {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
-    line-height: 1.4;
-    margin-bottom: 0.35rem;
-  }
-
-  .narrative-hint {
     font-size: 0.7rem;
-    margin-bottom: 0.35rem;
-  }
-}
-
-/* 手機橫向模式 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .narrative-question {
-    font-size: 0.75rem;
     padding: 0.35rem 0.5rem;
     line-height: 1.3;
-    margin-bottom: 0.25rem;
-    max-width: 280px;
+    max-width: 200px;
   }
 
   .narrative-hint {
-    font-size: 0.6rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .answer-unit {
-    font-size: 0.8rem;
-  }
-}
-
-/* 敘述題算式方框輸入樣式 */
-.narrative-formula-boxes {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  font-size: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.formula-box {
-  width: 40px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #1a1a1a;
-  border: 2px solid #646cff;
-  border-radius: 6px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #fff;
-}
-
-.formula-box.filled {
-  background-color: #2a2a4a;
-  border-color: #51cf66;
-}
-
-.formula-box.answer-box {
-  width: 55px;
-}
-
-.formula-operator {
-  color: #646cff;
-  font-weight: bold;
-  font-size: 1.25rem;
-}
-
-.formula-result {
-  color: #ffd43b;
-  font-weight: bold;
-  font-size: 1.25rem;
-}
-
-@media (max-width: 480px) {
-  .narrative-formula-boxes {
-    gap: 0.25rem;
-    font-size: 1.25rem;
-  }
-
-  .formula-box {
-    width: 34px;
-    height: 40px;
-    font-size: 1.25rem;
-    border-width: 2px;
-  }
-
-  .formula-box.answer-box {
-    width: 48px;
-  }
-
-  .formula-operator,
-  .formula-result {
-    font-size: 1rem;
-  }
-}
-
-@media (max-height: 700px) {
-  .narrative-formula-boxes {
-    gap: 0.3rem;
-    font-size: 1.35rem;
-  }
-
-  .formula-box {
-    width: 36px;
-    height: 42px;
-    font-size: 1.35rem;
-  }
-
-  .formula-box.answer-box {
-    width: 50px;
-  }
-
-  .formula-operator,
-  .formula-result {
-    font-size: 1.1rem;
-  }
-}
-
-/* 手機橫向模式 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .narrative-formula-boxes {
-    gap: 0.2rem;
-    font-size: 1rem;
+    font-size: 0.55rem;
   }
 
   .formula-box {
     width: 28px;
     height: 32px;
-    font-size: 1rem;
-    border-width: 2px;
+    font-size: 0.95rem;
     border-radius: 4px;
   }
 
   .formula-box.answer-box {
-    width: 40px;
+    width: 38px;
   }
 
-  .formula-operator,
-  .formula-result {
-    font-size: 0.85rem;
+  .formula-operator {
+    font-size: 0.8rem;
+  }
+
+  .hint {
+    display: none;
   }
 }
 
 /* ===================================
-   iPad 直式模式優化
+   iPad 直式模式
    =================================== */
+
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
   .game {
-    max-width: 680px;
-    padding: 1.25rem;
+    max-width: 600px;
+    padding: 1rem;
+    gap: 1rem;
   }
 
   .game-header {
-    font-size: 1.4rem;
-    padding: 1rem 1.75rem;
-    margin-bottom: 2rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 1.2rem;
   }
 
   .question {
     font-size: 3.5rem;
-    margin-bottom: 1.5rem;
   }
 
   .answer-input {
-    font-size: 3rem;
-    padding: 1rem 2rem;
-    min-height: 80px;
-    max-width: 320px;
+    font-size: 2.5rem;
+    padding: 0.75rem 2rem;
+    max-width: 280px;
   }
 
   .question-progress {
-    max-width: 450px;
-    margin-top: 1.5rem;
+    max-width: 400px;
   }
 
   .progress-label {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .progress-bar {
-    height: 14px;
-  }
-
-  .hint {
-    margin-top: 1.25rem;
-    font-size: 1rem;
+    height: 10px;
   }
 
   .narrative-question {
-    font-size: 1.5rem;
-    padding: 1.25rem 1.75rem;
-    max-width: 580px;
-    line-height: 1.7;
+    font-size: 1.3rem;
+    padding: 1rem 1.25rem;
+    max-width: 500px;
   }
 
   .narrative-hint {
-    font-size: 1.05rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .narrative-formula-boxes {
-    gap: 0.6rem;
-    font-size: 2.25rem;
+    font-size: 0.95rem;
   }
 
   .formula-box {
-    width: 60px;
-    height: 72px;
-    font-size: 2.25rem;
+    width: 56px;
+    height: 64px;
+    font-size: 1.8rem;
   }
 
   .formula-box.answer-box {
-    width: 85px;
+    width: 76px;
   }
 
-  .formula-operator,
-  .formula-result {
-    font-size: 2rem;
+  .formula-operator {
+    font-size: 1.6rem;
   }
 
   .answer-unit {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+  }
+
+  .hint {
+    font-size: 0.9rem;
   }
 }
