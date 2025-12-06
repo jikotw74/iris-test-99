@@ -1,12 +1,11 @@
 /* ===================================
-   主頁面選擇器 - 重新設計
+   難度選擇頁面 - 簡化版手機優先設計
    =================================== */
 
 .difficulty-selector {
   width: 100%;
-  max-width: 720px;
+  max-width: 600px;
   height: 100%;
-  max-height: 100%;
   margin: 0 auto;
   padding: 0.5rem;
   overflow-y: auto;
@@ -14,44 +13,24 @@
   -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
-}
-
-@media (max-width: 480px) {
-  .difficulty-selector {
-    padding: 0.35rem;
-  }
-}
-
-/* 手機橫向模式 - 雙欄佈局 (使用 flex) */
-@media (max-height: 500px) and (orientation: landscape) {
-  .difficulty-selector {
-    max-width: 100%;
-    padding: 0.25rem 0.5rem;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.75rem;
-    align-content: flex-start;
-    justify-content: center;
-  }
+  gap: 0.5rem;
 }
 
 /* ===================================
-   Hero 區域 - 標題與副標題
+   Hero 區域
    =================================== */
 
 .hero {
   text-align: center;
-  margin-bottom: 0.75rem;
-  padding: 0.75rem 0.75rem;
-  background: linear-gradient(135deg, rgba(100, 108, 255, 0.08), rgba(124, 77, 255, 0.05));
+  padding: 0.75rem;
+  background: linear-gradient(135deg, rgba(100, 108, 255, 0.1), rgba(124, 77, 255, 0.05));
   border-radius: 12px;
-  border: 1px solid rgba(100, 108, 255, 0.15);
+  border: 1px solid rgba(100, 108, 255, 0.2);
   flex-shrink: 0;
 }
 
 .hero-title {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 5vw, 1.75rem);
   font-weight: 800;
   margin: 0 0 0.25rem;
   color: #f8f9fa;
@@ -65,129 +44,36 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: clamp(28px, 8vw, 40px);
+  height: clamp(28px, 8vw, 40px);
   background: linear-gradient(135deg, #646cff, #7c4dff);
-  border-radius: 10px;
-  font-size: 1.2rem;
+  border-radius: 8px;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
   font-weight: 700;
   color: white;
 }
 
 .hero-subtitle {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
   color: #9ca3af;
-  font-weight: 400;
 }
 
 .hero-leaderboard-btn {
   margin-top: 0.5rem;
-  padding: 0.35rem 1rem;
-  background: linear-gradient(135deg, rgba(100, 108, 255, 0.15), rgba(124, 77, 255, 0.1));
+  padding: 0.35rem 0.85rem;
+  background: rgba(100, 108, 255, 0.15);
   border: 1.5px solid #646cff;
   border-radius: 20px;
   color: #a5b4fc;
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .hero-leaderboard-btn:hover {
-  background: linear-gradient(135deg, rgba(100, 108, 255, 0.25), rgba(124, 77, 255, 0.2));
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.3);
-}
-
-@media (max-width: 480px) {
-  .hero {
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-  }
-
-  .hero-title {
-    font-size: 1.25rem;
-  }
-
-  .hero-icon {
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.75rem;
-  }
-
-  .hero-leaderboard-btn {
-    margin-top: 0.35rem;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-height: 700px) {
-  .hero {
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-  }
-
-  .hero-title {
-    font-size: 1.25rem;
-    margin-bottom: 0.15rem;
-  }
-
-  .hero-icon {
-    width: 28px;
-    height: 28px;
-    font-size: 0.95rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.7rem;
-  }
-
-  .hero-leaderboard-btn {
-    margin-top: 0.25rem;
-    padding: 0.25rem 0.6rem;
-    font-size: 0.7rem;
-  }
-}
-
-/* 手機橫向模式 - Hero 寬度 100% */
-@media (max-height: 500px) and (orientation: landscape) {
-  .hero {
-    flex: 1 1 100%;
-    margin-bottom: 0;
-    padding: 0.35rem 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  .hero-title {
-    font-size: 1.1rem;
-    margin: 0;
-  }
-
-  .hero-icon {
-    width: 24px;
-    height: 24px;
-    font-size: 0.85rem;
-    border-radius: 6px;
-  }
-
-  .hero-subtitle {
-    display: none;
-  }
-
-  .hero-leaderboard-btn {
-    margin: 0;
-    padding: 0.2rem 0.6rem;
-    font-size: 0.7rem;
-  }
+  background: rgba(100, 108, 255, 0.25);
 }
 
 /* ===================================
@@ -195,7 +81,6 @@
    =================================== */
 
 .step-section {
-  margin-bottom: 0.5rem;
   padding: 0.6rem;
   background: #14151a;
   border: 1px solid #2a2b35;
@@ -206,7 +91,7 @@
 .step-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   margin-bottom: 0.5rem;
 }
 
@@ -214,11 +99,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   background: linear-gradient(135deg, #646cff, #7c4dff);
   border-radius: 50%;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: white;
   flex-shrink: 0;
@@ -226,81 +111,18 @@
 
 .step-title {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
   font-weight: 600;
   color: #f8f9fa;
 }
 
 .step-hint {
   margin-left: auto;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: #6b7280;
   background: rgba(100, 108, 255, 0.1);
   padding: 0.15rem 0.5rem;
   border-radius: 20px;
-}
-
-@media (max-width: 480px) {
-  .step-section {
-    margin-bottom: 0.4rem;
-    padding: 0.5rem;
-  }
-
-  .step-header {
-    margin-bottom: 0.4rem;
-  }
-
-  .step-number {
-    width: 20px;
-    height: 20px;
-    font-size: 0.7rem;
-  }
-
-  .step-title {
-    font-size: 0.8rem;
-  }
-
-  .step-hint {
-    font-size: 0.65rem;
-    padding: 0.1rem 0.4rem;
-  }
-}
-
-@media (max-height: 700px) {
-  .step-section {
-    margin-bottom: 0.35rem;
-    padding: 0.5rem;
-  }
-
-  .step-header {
-    margin-bottom: 0.35rem;
-  }
-}
-
-/* 手機橫向模式 - 步驟區塊調整 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .step-section {
-    margin-bottom: 0;
-    padding: 0.4rem;
-  }
-
-  .step-header {
-    margin-bottom: 0.3rem;
-  }
-
-  .step-number {
-    width: 18px;
-    height: 18px;
-    font-size: 0.65rem;
-  }
-
-  .step-title {
-    font-size: 0.75rem;
-  }
-
-  .step-hint {
-    font-size: 0.6rem;
-  }
 }
 
 /* ===================================
@@ -309,26 +131,15 @@
 
 .mode-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.mode-buttons .mode-card {
-  flex: 1 1 calc(50% - 0.25rem);
-  min-width: 140px;
-}
-
-@media (max-width: 400px) {
-  .mode-buttons .mode-card {
-    flex: 1 1 100%;
-  }
+  gap: 0.4rem;
 }
 
 .mode-card {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem;
+  gap: 0.4rem;
+  padding: 0.5rem 0.6rem;
   background: #1a1b22;
   border: 2px solid #2a2b35;
   border-radius: 10px;
@@ -341,17 +152,15 @@
 
 .mode-card:hover {
   border-color: #4a4b5a;
-  background: #1e1f28;
 }
 
 .mode-card.active {
   border-color: #646cff;
-  background: linear-gradient(135deg, rgba(100, 108, 255, 0.12), rgba(124, 77, 255, 0.08));
-  box-shadow: 0 0 20px rgba(100, 108, 255, 0.15);
+  background: rgba(100, 108, 255, 0.1);
 }
 
 .mode-icon {
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
   line-height: 1;
 }
 
@@ -359,71 +168,21 @@
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+  min-width: 0;
 }
 
 .mode-name {
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.9rem);
   font-weight: 600;
   color: #f8f9fa;
 }
 
 .mode-desc {
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 2vw, 0.7rem);
   color: #6b7280;
-}
-
-@media (max-width: 480px) {
-  .mode-card {
-    padding: 0.5rem;
-    gap: 0.4rem;
-  }
-
-  .mode-icon {
-    font-size: 1.2rem;
-  }
-
-  .mode-name {
-    font-size: 0.8rem;
-  }
-
-  .mode-desc {
-    font-size: 0.65rem;
-  }
-}
-
-@media (max-height: 700px) {
-  .mode-card {
-    padding: 0.5rem;
-  }
-
-  .mode-icon {
-    font-size: 1.2rem;
-  }
-}
-
-/* 手機橫向模式 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .mode-buttons {
-    gap: 0.35rem;
-  }
-
-  .mode-card {
-    padding: 0.35rem 0.5rem;
-    gap: 0.35rem;
-    border-radius: 8px;
-  }
-
-  .mode-icon {
-    font-size: 1rem;
-  }
-
-  .mode-name {
-    font-size: 0.7rem;
-  }
-
-  .mode-desc {
-    font-size: 0.6rem;
-  }
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ===================================
@@ -433,15 +192,15 @@
 .table-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.3rem;
 }
 
 .table-chip {
-  padding: 0.35rem 0.6rem;
+  padding: 0.3rem 0.5rem;
   background: #1a1b22;
   border: 1.5px solid #2a2b35;
-  border-radius: 16px;
-  font-size: 0.75rem;
+  border-radius: 14px;
+  font-size: clamp(0.65rem, 2.2vw, 0.75rem);
   color: #d1d5db;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -451,17 +210,16 @@
 
 .table-chip:hover {
   border-color: #4a4b5a;
-  background: #22232d;
 }
 
 .table-chip.checked {
-  background: linear-gradient(135deg, rgba(100, 108, 255, 0.2), rgba(124, 77, 255, 0.15));
+  background: rgba(100, 108, 255, 0.15);
   border-color: #646cff;
   color: #c7caff;
 }
 
 .table-actions {
-  margin-top: 0.35rem;
+  margin-top: 0.3rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -469,16 +227,16 @@
 
 .table-error {
   color: #f87171;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
 }
 
 .table-reset {
   background: transparent;
   border: 1px dashed #4a4b5a;
   color: #9fa8ff;
-  padding: 0.25rem 0.6rem;
-  border-radius: 16px;
-  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 14px;
+  font-size: 0.65rem;
   cursor: pointer;
   transition: all 0.15s ease;
 }
@@ -488,83 +246,32 @@
   border-color: #646cff;
 }
 
-@media (max-width: 480px) {
-  .table-grid {
-    gap: 0.3rem;
-  }
-
-  .table-chip {
-    padding: 0.3rem 0.5rem;
-    font-size: 0.7rem;
-  }
-}
-
-/* 手機橫向模式 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .table-grid {
-    gap: 0.25rem;
-  }
-
-  .table-chip {
-    padding: 0.2rem 0.4rem;
-    font-size: 0.6rem;
-    border-radius: 12px;
-  }
-
-  .table-actions {
-    margin-top: 0.2rem;
-  }
-
-  .table-error,
-  .table-reset {
-    font-size: 0.6rem;
-  }
-}
-
 /* ===================================
-   難度選擇卡片 - 帶顏色區分
+   難度選擇卡片
    =================================== */
 
 .difficulty-grid {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.difficulty-grid .difficulty-card {
-  flex: 1 1 calc(33.333% - 0.35rem);
-  min-width: 90px;
-}
-
-@media (max-width: 600px) {
-  .difficulty-grid {
-    gap: 0.35rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .difficulty-grid .difficulty-card {
-    flex: 1 1 100%;
-  }
+  gap: 0.4rem;
 }
 
 .difficulty-card {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.6rem 0.5rem;
+  padding: 0.6rem 0.4rem;
   background: #1a1b22;
   border: 2px solid #2a2b35;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 
 .difficulty-card:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .difficulty-card:disabled {
@@ -572,69 +279,40 @@
   cursor: not-allowed;
 }
 
-@media (max-width: 480px) {
-  .difficulty-card {
-    padding: 0.5rem 0.4rem;
-  }
-}
-
-@media (max-height: 700px) {
-  .difficulty-card {
-    padding: 0.5rem 0.4rem;
-  }
-}
-
-/* 手機橫向模式 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .difficulty-grid {
-    gap: 0.3rem;
-  }
-
-  .difficulty-card {
-    padding: 0.35rem;
-    border-radius: 8px;
-  }
-}
-
-/* 簡單 - 綠色 */
+/* 難度顏色 */
 .difficulty-card.easy {
   border-color: #22c55e;
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(34, 197, 94, 0.03));
+  background: rgba(34, 197, 94, 0.08);
 }
 
 .difficulty-card.easy:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.08));
-  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.2);
+  background: rgba(34, 197, 94, 0.15);
 }
 
 .difficulty-card.easy .difficulty-name {
   color: #4ade80;
 }
 
-/* 普通 - 橙色 */
 .difficulty-card.normal {
   border-color: #f59e0b;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.03));
+  background: rgba(245, 158, 11, 0.08);
 }
 
 .difficulty-card.normal:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.08));
-  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.15);
 }
 
 .difficulty-card.normal .difficulty-name {
   color: #fbbf24;
 }
 
-/* 困難 - 紅色 */
 .difficulty-card.hard {
   border-color: #ef4444;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.03));
+  background: rgba(239, 68, 68, 0.08);
 }
 
 .difficulty-card.hard:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.08));
-  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.15);
 }
 
 .difficulty-card.hard .difficulty-name {
@@ -642,90 +320,36 @@
 }
 
 .difficulty-name {
-  font-size: 0.95rem;
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
   font-weight: 700;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
   color: #f8f9fa;
 }
 
 .difficulty-stats {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.1rem;
 }
 
 .stat {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.65rem;
+  gap: 0.2rem;
+  font-size: clamp(0.55rem, 1.8vw, 0.65rem);
   color: #9ca3af;
 }
 
 .stat-icon {
-  font-size: 0.7rem;
-}
-
-@media (max-width: 600px) {
-  .difficulty-name {
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .stat {
-    font-size: 0.6rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .difficulty-name {
-    font-size: 0.8rem;
-  }
-
-  .difficulty-stats {
-    gap: 0.1rem;
-  }
-
-  .stat {
-    font-size: 0.6rem;
-  }
-}
-
-/* 手機橫向模式 */
-@media (max-height: 500px) and (orientation: landscape) {
-  .difficulty-name {
-    font-size: 0.7rem;
-    margin-bottom: 0.15rem;
-  }
-
-  .difficulty-stats {
-    gap: 0.1rem;
-  }
-
-  .stat {
-    font-size: 0.55rem;
-  }
-
-  .stat-icon {
-    font-size: 0.6rem;
-  }
+  font-size: 0.65rem;
 }
 
 /* ===================================
-   進階設定 - 可折疊區域
+   進階設定
    =================================== */
 
 .advanced-section {
-  margin-top: 0.35rem;
   flex-shrink: 0;
-}
-
-/* 手機橫向模式 - 進階設定寬度 100% */
-@media (max-height: 500px) and (orientation: landscape) {
-  .advanced-section {
-    flex: 1 1 100%;
-    margin-top: 0;
-  }
 }
 
 .advanced-toggle {
@@ -747,11 +371,10 @@
 .advanced-toggle:hover {
   border-color: #646cff;
   color: #9fa8ff;
-  background: rgba(100, 108, 255, 0.05);
 }
 
 .toggle-arrow {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   transition: transform 0.2s ease;
 }
 
@@ -760,56 +383,33 @@
 }
 
 .advanced-content {
-  margin-top: 0.75rem;
-  padding: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
   background: #14151a;
   border: 1px solid #2a2b35;
-  border-radius: 12px;
-  animation: slideDown 0.2s ease;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  border-radius: 10px;
 }
 
 .custom-form {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .form-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.form-row .form-field {
-  flex: 1 1 calc(50% - 0.375rem);
-  min-width: 120px;
-}
-
-@media (max-width: 400px) {
-  .form-row .form-field {
-    flex: 1 1 100%;
-  }
+  gap: 0.6rem;
 }
 
 .form-field {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.25rem;
 }
 
 .field-label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #9ca3af;
   font-weight: 500;
 }
@@ -826,51 +426,47 @@
 
 .input-group:focus-within {
   border-color: #646cff;
-  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
 }
 
 .input-group input {
   flex: 1;
-  padding: 0.6rem 0.85rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
   background: transparent;
   border: none;
   color: #f8f9fa;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   outline: none;
 }
 
 .input-suffix {
-  padding: 0 0.75rem;
+  padding: 0 0.6rem;
   color: #6b7280;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   background: rgba(100, 108, 255, 0.05);
-  height: 100%;
-  display: flex;
-  align-items: center;
 }
 
 .custom-error {
   color: #f87171;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-align: center;
 }
 
 .custom-submit {
   width: 100%;
-  padding: 0.75rem 1.25rem;
+  padding: 0.6rem 1rem;
   background: linear-gradient(135deg, #646cff, #7c4dff);
   border: none;
   border-radius: 8px;
   color: white;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .custom-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(100, 108, 255, 0.35);
+  transform: translateY(-1px);
 }
 
 .custom-submit:disabled {
@@ -878,163 +474,12 @@
   cursor: not-allowed;
 }
 
-@media (max-width: 480px) {
-  .advanced-toggle {
-    padding: 0.5rem;
-    font-size: 0.8rem;
-  }
-
-  .advanced-content {
-    padding: 0.75rem;
-  }
-
-  .input-group input {
-    padding: 0.5rem 0.7rem;
-    font-size: 0.9rem;
-  }
-
-  .custom-submit {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
-}
-
 /* ===================================
-   iPad 直式模式優化 - 減少空白區域
-   =================================== */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .difficulty-selector {
-    max-width: 680px;
-    padding: 1rem;
-  }
-
-  .hero {
-    margin-bottom: 1.75rem;
-    padding: 1.5rem 1.25rem;
-  }
-
-  .hero-title {
-    font-size: 2.25rem;
-  }
-
-  .hero-icon {
-    width: 52px;
-    height: 52px;
-    font-size: 1.75rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.05rem;
-  }
-
-  .hero-leaderboard-btn {
-    margin-top: 1rem;
-    padding: 0.6rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .step-section {
-    margin-bottom: 1.5rem;
-    padding: 1.25rem;
-  }
-
-  .step-number {
-    width: 32px;
-    height: 32px;
-    font-size: 0.95rem;
-  }
-
-  .step-title {
-    font-size: 1.15rem;
-  }
-
-  .step-hint {
-    font-size: 0.85rem;
-    padding: 0.25rem 0.75rem;
-  }
-
-  .mode-buttons {
-    gap: 1rem;
-  }
-
-  .mode-card {
-    padding: 1.25rem;
-    gap: 1rem;
-  }
-
-  .mode-icon {
-    font-size: 2rem;
-  }
-
-  .mode-name {
-    font-size: 1.1rem;
-  }
-
-  .mode-desc {
-    font-size: 0.9rem;
-  }
-
-  .table-grid {
-    gap: 0.6rem;
-  }
-
-  .table-chip {
-    padding: 0.6rem 1rem;
-    font-size: 0.95rem;
-  }
-
-  .difficulty-grid {
-    gap: 1rem;
-  }
-
-  .difficulty-card {
-    padding: 1.25rem 1rem;
-  }
-
-  .difficulty-name {
-    font-size: 1.3rem;
-    margin-bottom: 0.6rem;
-  }
-
-  .stat {
-    font-size: 0.85rem;
-  }
-
-  .stat-icon {
-    font-size: 0.9rem;
-  }
-
-  .advanced-toggle {
-    padding: 0.75rem;
-    font-size: 0.95rem;
-  }
-
-  .advanced-content {
-    padding: 1.25rem;
-  }
-
-  .field-label {
-    font-size: 0.9rem;
-  }
-
-  .input-group input {
-    padding: 0.7rem 1rem;
-    font-size: 1.05rem;
-  }
-
-  .custom-submit {
-    padding: 0.85rem 1.5rem;
-    font-size: 1.05rem;
-  }
-}
-
-/* ===================================
-   字體大小設定區塊
+   字體大小設定
    =================================== */
 
 .font-size-section {
-  margin-top: 0.35rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.6rem;
   background: #14151a;
   border: 1px solid #2a2b35;
   border-radius: 10px;
@@ -1042,28 +487,27 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  flex-wrap: wrap;
   flex-shrink: 0;
 }
 
 .font-size-label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #9ca3af;
   font-weight: 500;
 }
 
 .font-size-controls {
   display: flex;
-  gap: 0.35rem;
+  gap: 0.3rem;
 }
 
 .font-size-btn {
-  padding: 0.3rem 0.6rem;
+  padding: 0.25rem 0.5rem;
   background: #1a1b22;
   border: 1.5px solid #2a2b35;
   border-radius: 6px;
   color: #d1d5db;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   cursor: pointer;
   transition: all 0.15s ease;
   touch-action: manipulation;
@@ -1072,60 +516,368 @@
 
 .font-size-btn:hover {
   border-color: #4a4b5a;
-  background: #22232d;
 }
 
 .font-size-btn.active {
-  background: linear-gradient(135deg, rgba(100, 108, 255, 0.2), rgba(124, 77, 255, 0.15));
+  background: rgba(100, 108, 255, 0.15);
   border-color: #646cff;
   color: #c7caff;
 }
 
-@media (max-width: 480px) {
-  .font-size-section {
-    padding: 0.4rem 0.5rem;
+/* ===================================
+   小螢幕手機 (≤400px)
+   =================================== */
+
+@media (max-width: 400px) {
+  .difficulty-selector {
+    padding: 0.35rem;
+    gap: 0.4rem;
+  }
+
+  .hero {
+    padding: 0.5rem;
+  }
+
+  .step-section {
+    padding: 0.5rem;
+  }
+
+  .mode-buttons {
+    flex-direction: column;
+  }
+
+  .mode-card {
+    padding: 0.45rem 0.5rem;
+  }
+
+  .difficulty-grid {
+    gap: 0.3rem;
+  }
+
+  .difficulty-card {
+    padding: 0.5rem 0.35rem;
+  }
+}
+
+/* ===================================
+   短螢幕優化 (≤600px 高度)
+   =================================== */
+
+@media (max-height: 600px) {
+  .difficulty-selector {
     gap: 0.35rem;
   }
 
-  .font-size-label {
+  .hero {
+    padding: 0.5rem;
+  }
+
+  .hero-subtitle {
+    display: none;
+  }
+
+  .step-section {
+    padding: 0.45rem;
+  }
+
+  .step-header {
+    margin-bottom: 0.35rem;
+  }
+
+  .mode-card {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .table-grid {
+    gap: 0.25rem;
+  }
+
+  .table-chip {
+    padding: 0.25rem 0.4rem;
+  }
+
+  .difficulty-card {
+    padding: 0.45rem 0.35rem;
+  }
+
+  .advanced-content {
+    padding: 0.6rem;
+  }
+
+  .font-size-section {
+    padding: 0.35rem 0.5rem;
+  }
+}
+
+/* ===================================
+   手機橫向模式 - 雙欄佈局
+   =================================== */
+
+@media (max-height: 450px) and (orientation: landscape) {
+  .difficulty-selector {
+    max-width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.5rem;
+    align-content: flex-start;
+    justify-content: center;
+  }
+
+  .hero {
+    flex: 1 1 100%;
+    padding: 0.3rem 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .hero-title {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .hero-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 0.75rem;
+  }
+
+  .hero-subtitle {
+    display: none;
+  }
+
+  .hero-leaderboard-btn {
+    margin: 0;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.65rem;
+  }
+
+  .step-section {
+    flex: 1 1 calc(50% - 0.3rem);
+    min-width: 200px;
+    padding: 0.35rem;
+  }
+
+  .step-header {
+    margin-bottom: 0.25rem;
+  }
+
+  .step-number {
+    width: 16px;
+    height: 16px;
+    font-size: 0.6rem;
+  }
+
+  .step-title {
     font-size: 0.7rem;
   }
 
-  .font-size-btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.65rem;
-  }
-}
-
-/* 手機橫向模式 - 字體大小寬度 100% */
-@media (max-height: 500px) and (orientation: landscape) {
-  .font-size-section {
-    flex: 1 1 100%;
-    margin-top: 0;
-    padding: 0.3rem 0.5rem;
+  .step-hint {
+    font-size: 0.55rem;
+    padding: 0.1rem 0.35rem;
   }
 
-  .font-size-label {
-    font-size: 0.65rem;
+  .mode-buttons {
+    gap: 0.25rem;
   }
 
-  .font-size-btn {
-    padding: 0.2rem 0.4rem;
-    font-size: 0.6rem;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .font-size-section {
-    padding: 0.75rem 1rem;
+  .mode-card {
+    padding: 0.3rem 0.4rem;
+    gap: 0.3rem;
   }
 
-  .font-size-label {
+  .mode-icon {
     font-size: 0.9rem;
   }
 
+  .mode-name {
+    font-size: 0.65rem;
+  }
+
+  .mode-desc {
+    font-size: 0.55rem;
+  }
+
+  .table-grid {
+    gap: 0.2rem;
+  }
+
+  .table-chip {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.55rem;
+  }
+
+  .difficulty-grid {
+    gap: 0.25rem;
+  }
+
+  .difficulty-card {
+    padding: 0.3rem;
+  }
+
+  .difficulty-name {
+    font-size: 0.65rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .stat {
+    font-size: 0.5rem;
+  }
+
+  .advanced-section,
+  .font-size-section {
+    flex: 1 1 100%;
+  }
+
+  .advanced-toggle {
+    padding: 0.25rem;
+    font-size: 0.65rem;
+  }
+
+  .font-size-section {
+    padding: 0.25rem 0.4rem;
+  }
+
+  .font-size-label {
+    font-size: 0.6rem;
+  }
+
   .font-size-btn {
-    padding: 0.5rem 1rem;
+    padding: 0.15rem 0.35rem;
+    font-size: 0.55rem;
+  }
+}
+
+/* ===================================
+   iPad 直式模式
+   =================================== */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .difficulty-selector {
+    max-width: 580px;
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .hero {
+    padding: 1.25rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-leaderboard-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .step-section {
+    padding: 1rem;
+  }
+
+  .step-number {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
+  .step-title {
+    font-size: 1.1rem;
+  }
+
+  .step-hint {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .mode-buttons {
+    gap: 0.75rem;
+  }
+
+  .mode-card {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .mode-icon {
+    font-size: 1.75rem;
+  }
+
+  .mode-name {
+    font-size: 1.05rem;
+  }
+
+  .mode-desc {
     font-size: 0.85rem;
+  }
+
+  .table-grid {
+    gap: 0.5rem;
+  }
+
+  .table-chip {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.9rem;
+  }
+
+  .difficulty-grid {
+    gap: 0.75rem;
+  }
+
+  .difficulty-card {
+    padding: 1rem 0.75rem;
+  }
+
+  .difficulty-name {
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat {
+    font-size: 0.8rem;
+  }
+
+  .advanced-toggle {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .advanced-content {
+    padding: 1rem;
+  }
+
+  .input-group input {
+    padding: 0.65rem 0.8rem;
+    font-size: 1rem;
+  }
+
+  .custom-submit {
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  .font-size-section {
+    padding: 0.6rem 0.85rem;
+  }
+
+  .font-size-label {
+    font-size: 0.85rem;
+  }
+
+  .font-size-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
   }
 }
