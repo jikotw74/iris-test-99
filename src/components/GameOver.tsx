@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { DifficultyName, QuestionMode } from '../types';
+import { getPoolType } from '../types';
 import { isFirebaseConfigured } from '../firebase';
 import { checkIfTop10 } from '../services/leaderboardService';
 import SubmitScore from './SubmitScore';
@@ -34,6 +35,8 @@ const GameOver: React.FC<Props> = ({
   const [checkingTop10, setCheckingTop10] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
 
+  const poolType = getPoolType(selectedTables);
+
   useEffect(() => {
     const checkEligibility = async () => {
       if (!isPerfect || !isFirebaseConfigured()) {
@@ -43,7 +46,7 @@ const GameOver: React.FC<Props> = ({
 
       setCheckingTop10(true);
       try {
-        const isTop10 = await checkIfTop10(difficulty, questionMode, score, timeUsed);
+        const isTop10 = await checkIfTop10(difficulty, questionMode, score, timeUsed, poolType);
         setCanSubmit(isTop10);
         if (isTop10) {
           setShowSubmit(true);
@@ -57,7 +60,7 @@ const GameOver: React.FC<Props> = ({
     };
 
     checkEligibility();
-  }, [isPerfect, difficulty, questionMode, score, timeUsed]);
+  }, [isPerfect, difficulty, questionMode, score, timeUsed, poolType]);
 
   const handleSubmitted = (name: string) => {
     setSubmittedName(name);
@@ -149,6 +152,7 @@ const GameOver: React.FC<Props> = ({
         <Leaderboard
           initialDifficulty={difficulty}
           initialMode={questionMode}
+          initialPoolType={poolType}
           highlightName={submittedName || undefined}
           onClose={() => setShowLeaderboard(false)}
         />

@@ -50,6 +50,20 @@ export const DIFFICULTIES: Difficulty[] = [
 // 難度名稱類型
 export type DifficultyName = '簡單' | '普通' | '困難';
 
+// 題庫池類型：全部 = 選擇所有題庫，部分 = 選擇部分題庫
+export type PoolType = 'all' | 'partial';
+
+// 判斷是否為全部題庫
+export const isAllTables = (tables: number[]): boolean => {
+  return tables.length === MULTIPLICATION_TABLES.length &&
+    MULTIPLICATION_TABLES.every(t => tables.includes(t));
+};
+
+// 根據 selectedTables 取得 poolType
+export const getPoolType = (tables: number[]): PoolType => {
+  return isAllTables(tables) ? 'all' : 'partial';
+};
+
 // 排行榜項目
 export interface LeaderboardEntry {
   id?: string;
@@ -59,6 +73,7 @@ export interface LeaderboardEntry {
   difficulty: DifficultyName;  // 難度
   questionMode: QuestionMode;  // 題型
   selectedTables: number[];    // 選擇的題庫 (2-9 的子集)
+  poolType: PoolType;     // 題庫池類型 (all/partial)
   timestamp: Date;        // 記錄時間
 }
 

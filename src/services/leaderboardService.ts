@@ -9,7 +9,8 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../firebase';
-import type { LeaderboardEntry, DifficultyName, QuestionMode } from '../types';
+import type { LeaderboardEntry, DifficultyName, QuestionMode, PoolType } from '../types';
+import { getPoolType } from '../types';
 
 const COLLECTION_NAME = 'leaderboard';
 const TOP_LIMIT = 10;
@@ -17,6 +18,9 @@ const TOP_LIMIT = 10;
 // 將 Firestore 文件轉換為 LeaderboardEntry
 const docToEntry = (doc: { id: string; data: () => Record<string, unknown> }): LeaderboardEntry => {
   const data = doc.data();
+  const selectedTables = (data.selectedTables as number[]) || [2, 3, 4, 5, 6, 7, 8, 9];
+  // 對於舊數據，根據 selectedTables 動態計算 poolType
+  const poolType = (data.poolType as PoolType) || getPoolType(selectedTables);
   return {
     id: doc.id,
     name: data.name as string,
@@ -24,14 +28,15 @@ const docToEntry = (doc: { id: string; data: () => Record<string, unknown> }): L
     timeUsed: data.timeUsed as number,
     difficulty: data.difficulty as DifficultyName,
     questionMode: data.questionMode as QuestionMode,
-    selectedTables: (data.selectedTables as number[]) || [2, 3, 4, 5, 6, 7, 8, 9],
+    selectedTables,
+    poolType,
     timestamp: (data.timestamp as Timestamp)?.toDate() || new Date(),
   };
 };
 
 // 提交成績到排行榜
 export const submitScore = async (
-  entry: Omit<LeaderboardEntry, 'id' | 'timestamp'>
+  entry: Omit<LeaderboardEntry, 'id' | 'timestamp' | 'poolType'> & { poolType?: PoolType }
 ): Promise<string | null> => {
   if (!isFirebaseConfigured()) {
     console.warn('Firebase 未設定，無法提交成績');
@@ -39,8 +44,11 @@ export const submitScore = async (
   }
 
   try {
+    // 自動計算 poolType（如果未提供）
+    const poolType = entry.poolType || getPoolType(entry.selectedTables);
     const docRef = await addDoc(collection(db, COLLECTION_NAME), {
       ...entry,
+      poolType,
       timestamp: Timestamp.now(),
     });
     return docRef.id;
@@ -50,10 +58,11 @@ export const submitScore = async (
   }
 };
 
-// 取得指定難度和題型的 TOP10 排行榜
+// 取得指定難度、題型和題庫池的 TOP10 排行榜
 export const getLeaderboard = async (
   difficulty: DifficultyName,
-  questionMode: QuestionMode
+  questionMode: QuestionMode,
+  poolType: PoolType = 'all'
 ): Promise<LeaderboardEntry[]> => {
   if (!isFirebaseConfigured()) {
     console.warn('Firebase 未設定，無法取得排行榜');
@@ -61,17 +70,47 @@ export const getLeaderboard = async (
   }
 
   try {
+    // 對於有 poolType 欄位的新數據，直接按 poolType 過濾
     const q = query(
       collection(db, COLLECTION_NAME),
       where('difficulty', '==', difficulty),
       where('questionMode', '==', questionMode),
+      where('poolType', '==', poolType),
       orderBy('score', 'desc'),
       orderBy('timeUsed', 'asc'),
       limit(TOP_LIMIT)
     );
 
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(docToEntry);
+    const results = querySnapshot.docs.map(docToEntry);
+
+    // 如果結果不足且可能有舊數據（沒有 poolType 欄位），嘗試查詢所有數據並在客戶端過濾
+    if (results.length < TOP_LIMIT) {
+      const fallbackQuery = query(
+        collection(db, COLLECTION_NAME),
+        where('difficulty', '==', difficulty),
+        where('questionMode', '==', questionMode),
+        orderBy('score', 'desc'),
+        orderBy('timeUsed', 'asc'),
+        limit(TOP_LIMIT * 2) // 獲取更多數據以便過濾
+      );
+
+      const fallbackSnapshot = await getDocs(fallbackQuery);
+      const allEntries = fallbackSnapshot.docs.map(docToEntry);
+
+      // 根據 poolType 過濾
+      const filteredEntries = allEntries.filter(entry => entry.poolType === poolType);
+
+      // 排序並限制數量
+      return filteredEntries
+        .sort((a, b) => {
+          if (b.score !== a.score) return b.score - a.score;
+          return a.timeUsed - b.timeUsed;
+        })
+        .slice(0, TOP_LIMIT);
+    }
+
+    return results;
   } catch (error) {
     console.error('取得排行榜失敗:', error);
     throw error;
@@ -83,14 +122,15 @@ export const checkIfTop10 = async (
   difficulty: DifficultyName,
   questionMode: QuestionMode,
   score: number,
-  timeUsed: number
+  timeUsed: number,
+  poolType: PoolType = 'all'
 ): Promise<boolean> => {
   if (!isFirebaseConfigured()) {
     return false;
   }
 
   try {
-    const leaderboard = await getLeaderboard(difficulty, questionMode);
+    const leaderboard = await getLeaderboard(difficulty, questionMode, poolType);
 
     // 如果排行榜不滿 10 人，直接可以進入
     if (leaderboard.length < TOP_LIMIT) {
@@ -185,14 +225,15 @@ export const getRank = async (
   difficulty: DifficultyName,
   questionMode: QuestionMode,
   score: number,
-  timeUsed: number
+  timeUsed: number,
+  poolType: PoolType = 'all'
 ): Promise<number> => {
   if (!isFirebaseConfigured()) {
     return 0;
   }
 
   try {
-    const leaderboard = await getLeaderboard(difficulty, questionMode);
+    const leaderboard = await getLeaderboard(difficulty, questionMode, poolType);
 
     for (let i = 0; i < leaderboard.length; i++) {
       const entry = leaderboard[i];
