@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { LeaderboardEntry, DifficultyName, QuestionMode } from '../types';
+import type { LeaderboardEntry, DifficultyName, QuestionMode, PoolType } from '../types';
 import { getLeaderboard } from '../services/leaderboardService';
 import { isFirebaseConfigured } from '../firebase';
 import './Leaderboard.css';
@@ -7,6 +7,7 @@ import './Leaderboard.css';
 interface Props {
   initialDifficulty?: DifficultyName;
   initialMode?: QuestionMode;
+  initialPoolType?: PoolType;
   highlightName?: string;
   onClose: () => void;
 }
@@ -16,15 +17,21 @@ const MODES: { value: QuestionMode; label: string }[] = [
   { value: 'basic', label: '基本計算' },
   { value: 'narrative', label: '敘述題型' },
 ];
+const POOL_TYPES: { value: PoolType; label: string }[] = [
+  { value: 'all', label: '全部題庫' },
+  { value: 'partial', label: '部分題庫' },
+];
 
 const Leaderboard: React.FC<Props> = ({
   initialDifficulty = '簡單',
   initialMode = 'basic',
+  initialPoolType = 'all',
   highlightName,
   onClose,
 }) => {
   const [difficulty, setDifficulty] = useState<DifficultyName>(initialDifficulty);
   const [questionMode, setQuestionMode] = useState<QuestionMode>(initialMode);
+  const [poolType, setPoolType] = useState<PoolType>(initialPoolType);
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +48,7 @@ const Leaderboard: React.FC<Props> = ({
     setError(null);
 
     try {
-      const data = await getLeaderboard(difficulty, questionMode);
+      const data = await getLeaderboard(difficulty, questionMode, poolType);
       setEntries(data);
     } catch (err) {
       setError('載入排行榜失敗，請稍後再試');
@@ -49,11 +56,11 @@ const Leaderboard: React.FC<Props> = ({
     } finally {
       setLoading(false);
     }
-  }, [difficulty, questionMode]);
+  }, [difficulty, questionMode, poolType]);
 
   useEffect(() => {
     fetchLeaderboard();
-  }, [difficulty, questionMode, fetchLeaderboard]);
+  }, [difficulty, questionMode, poolType, fetchLeaderboard]);
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -117,6 +124,21 @@ const Leaderboard: React.FC<Props> = ({
                   onClick={() => setQuestionMode(m.value)}
                 >
                   {m.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="filter-group">
+            <label>題庫</label>
+            <div className="filter-buttons">
+              {POOL_TYPES.map((p) => (
+                <button
+                  key={p.value}
+                  className={`filter-btn ${poolType === p.value ? 'active' : ''}`}
+                  onClick={() => setPoolType(p.value)}
+                >
+                  {p.label}
                 </button>
               ))}
             </div>
