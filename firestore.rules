@@ -9,7 +9,7 @@ service cloud.firestore {
       // 允許寫入新成績（不需要驗證的公開排行榜）
       allow create: if
         // 驗證必要欄位存在
-        request.resource.data.keys().hasAll(['name', 'score', 'timeUsed', 'difficulty', 'questionMode', 'selectedTables', 'timestamp'])
+        request.resource.data.keys().hasAll(['name', 'score', 'timeUsed', 'difficulty', 'questionMode', 'selectedTables', 'poolType', 'timestamp'])
         // 驗證欄位類型
         && request.resource.data.name is string
         && request.resource.data.name.size() >= 1
@@ -24,6 +24,8 @@ service cloud.firestore {
         && request.resource.data.selectedTables is list
         && request.resource.data.selectedTables.size() >= 1
         && request.resource.data.selectedTables.size() <= 8
+        // 驗證 poolType 是 'all' 或 'partial'
+        && request.resource.data.poolType in ['all', 'partial']
         && request.resource.data.timestamp is timestamp;
 
       // 不允許更新或刪除現有記錄
