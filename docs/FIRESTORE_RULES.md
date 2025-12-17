@@ -22,6 +22,7 @@
 | `difficulty` | string | 是 | 難度：`簡單`、`普通`、`困難` |
 | `questionMode` | string | 是 | 題型：`basic`（基本計算）、`narrative`（敘述題型）|
 | `selectedTables` | array | 是 | 選擇的題庫（2-9 的子集），長度 1-8 |
+| `poolType` | string | 是 | 題庫池類型：`all`（全部題庫）、`partial`（部分題庫）|
 | `timestamp` | timestamp | 是 | 記錄時間 |
 
 #### 權限規則
@@ -67,7 +68,21 @@ firebase deploy --only firestore:rules
 
 ## 索引
 
-排行榜查詢需要以下複合索引：
+排行榜查詢需要以下複合索引（定義於 `/firestore.indexes.json`）：
+
+### 1. 主要排行榜查詢（含題庫池篩選）
+
+```
+Collection: leaderboard
+Fields:
+  - difficulty (Ascending)
+  - poolType (Ascending)
+  - questionMode (Ascending)
+  - score (Descending)
+  - timeUsed (Ascending)
+```
+
+### 2. Fallback 排行榜查詢（舊資料相容）
 
 ```
 Collection: leaderboard
@@ -78,7 +93,15 @@ Fields:
   - timeUsed (Ascending)
 ```
 
-可在 Firebase Console 中設定，或使用 `firestore.indexes.json` 定義。
+### 部署索引
+
+使用 Firebase CLI 部署索引：
+
+```bash
+firebase deploy --only firestore:indexes
+```
+
+或者直接在 Firebase Console 中點擊錯誤訊息提供的連結來創建索引。
 
 ## 注意事項
 
