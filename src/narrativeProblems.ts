@@ -1,15 +1,24 @@
 /**
- * 敘述題型題庫 - 100種乘法應用題模板
+ * 敘述題型題庫 - 100+種乘法應用題模板
  * 每個模板使用 {num1} 和 {num2} 作為數字佔位符
  * unit: 答案的單位
  * category: 題目分類，方便未來擴充篩選
+ * type: 題目類型
+ *   - 'standard': 標準乘法題 (num1 × num2 = answer)
+ *   - 'comparison': 倍數比較題 ({num1}的{larger}倍比{num1}的{smaller}倍多多少，答案 = num1 × num2，其中 num2 = larger - smaller)
+ *   - 'combination': 相同數量合併題 (多個相同數量合併，答案 = num1 × num2，num2 為數量個數)
  */
+
+// 題目類型
+export type NarrativeTemplateType = 'standard' | 'comparison' | 'combination';
 
 export interface NarrativeTemplate {
   id: number;
   template: string;
   unit: string;
   category: string;
+  type?: NarrativeTemplateType; // 預設為 'standard'
+  fixedNum2?: number; // 用於 combination 題型，指定固定的 num2 值（例如：兩人=2, 三人=3）
 }
 
 export const NARRATIVE_TEMPLATES: NarrativeTemplate[] = [
@@ -627,6 +636,153 @@ export const NARRATIVE_TEMPLATES: NarrativeTemplate[] = [
     template: '端午節每串粽子有{num1}顆，買了{num2}串，請問總共有幾顆粽子？',
     unit: '顆',
     category: '節日',
+  },
+
+  // ===== 數學概念場景 (101-120) =====
+  // 倍數比較題型：{num1}的{larger}倍比{num1}的{smaller}倍多多少
+  {
+    id: 101,
+    template: '{num1}的{larger}倍比{num1}的{smaller}倍多多少？',
+    unit: '',
+    category: '數學概念',
+    type: 'comparison',
+  },
+  {
+    id: 102,
+    template: '小明有{num1}顆糖果的{larger}倍，小華有{num1}顆糖果的{smaller}倍，小明比小華多幾顆糖果？',
+    unit: '顆',
+    category: '數學概念',
+    type: 'comparison',
+  },
+  {
+    id: 103,
+    template: '爸爸的年紀是{num1}歲的{larger}倍，媽媽的年紀是{num1}歲的{smaller}倍，爸爸比媽媽大幾歲？',
+    unit: '歲',
+    category: '數學概念',
+    type: 'comparison',
+  },
+  {
+    id: 104,
+    template: '哥哥存了{num1}元的{larger}倍，弟弟存了{num1}元的{smaller}倍，哥哥比弟弟多存幾元？',
+    unit: '元',
+    category: '數學概念',
+    type: 'comparison',
+  },
+  {
+    id: 105,
+    template: '甲班有{num1}人的{larger}倍，乙班有{num1}人的{smaller}倍，甲班比乙班多幾人？',
+    unit: '人',
+    category: '數學概念',
+    type: 'comparison',
+  },
+  {
+    id: 106,
+    template: '大盒子裝了{num1}個球的{larger}倍，小盒子裝了{num1}個球的{smaller}倍，大盒子比小盒子多幾個球？',
+    unit: '個',
+    category: '數學概念',
+    type: 'comparison',
+  },
+  {
+    id: 107,
+    template: '紅繩長{num1}公分的{larger}倍，藍繩長{num1}公分的{smaller}倍，紅繩比藍繩長幾公分？',
+    unit: '公分',
+    category: '數學概念',
+    type: 'comparison',
+  },
+  {
+    id: 108,
+    template: '姐姐跑了{num1}圈的{larger}倍，妹妹跑了{num1}圈的{smaller}倍，姐姐比妹妹多跑幾圈？',
+    unit: '圈',
+    category: '數學概念',
+    type: 'comparison',
+  },
+
+  // 相同數量合併題型：多個相同數量合併
+  {
+    id: 109,
+    template: '哥哥有{num1}輛玩具車，弟弟也有{num1}輛玩具車，兩人共有幾輛玩具車？',
+    unit: '輛',
+    category: '數學概念',
+    type: 'combination',
+    fixedNum2: 2,
+  },
+  {
+    id: 110,
+    template: '媽媽買了{num1}顆蘋果，爸爸也買了{num1}顆蘋果，一共買了幾顆蘋果？',
+    unit: '顆',
+    category: '數學概念',
+    type: 'combination',
+    fixedNum2: 2,
+  },
+  {
+    id: 111,
+    template: '小明有{num1}張貼紙，小華有{num1}張貼紙，小美也有{num1}張貼紙，三人共有幾張貼紙？',
+    unit: '張',
+    category: '數學概念',
+    type: 'combination',
+    fixedNum2: 3,
+  },
+  {
+    id: 112,
+    template: '姐姐存了{num1}元，妹妹也存了{num1}元，兩人共存了幾元？',
+    unit: '元',
+    category: '數學概念',
+    type: 'combination',
+    fixedNum2: 2,
+  },
+  {
+    id: 113,
+    template: '甲組有{num1}人，乙組也有{num1}人，丙組也有{num1}人，丁組也有{num1}人，四組共有幾人？',
+    unit: '人',
+    category: '數學概念',
+    type: 'combination',
+    fixedNum2: 4,
+  },
+  {
+    id: 114,
+    template: '第一天走了{num1}公里，第二天也走了{num1}公里，兩天共走了幾公里？',
+    unit: '公里',
+    category: '數學概念',
+    type: 'combination',
+    fixedNum2: 2,
+  },
+  {
+    id: 115,
+    template: '奶奶給了{num1}顆糖，爺爺也給了{num1}顆糖，一共收到幾顆糖？',
+    unit: '顆',
+    category: '數學概念',
+    type: 'combination',
+    fixedNum2: 2,
+  },
+  {
+    id: 116,
+    template: '每個書包有{num1}本書，班上有{num1}本書的{num2}倍，請問班上共有幾本書？',
+    unit: '本',
+    category: '數學概念',
+  },
+  {
+    id: 117,
+    template: '小狗每天吃{num1}碗飼料，連續{num2}天共吃幾碗飼料？',
+    unit: '碗',
+    category: '數學概念',
+  },
+  {
+    id: 118,
+    template: '一打鉛筆有{num1}枝，{num2}打鉛筆有幾枝？',
+    unit: '枝',
+    category: '數學概念',
+  },
+  {
+    id: 119,
+    template: '每層樓有{num1}階樓梯，爬了{num2}層樓共爬幾階？',
+    unit: '階',
+    category: '數學概念',
+  },
+  {
+    id: 120,
+    template: '{num1}的{num2}倍是多少？',
+    unit: '',
+    category: '數學概念',
   },
 ];
 
