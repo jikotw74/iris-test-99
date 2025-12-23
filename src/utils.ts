@@ -28,8 +28,8 @@ export const generateNarrativeQuestion = (
   let num2: number;
   let narrative: string;
 
-  if (templateType === 'comparison') {
-    // 倍數比較題：{num1}的{larger}倍比{num1}的{smaller}倍多多少
+  if (templateType === 'comparison' || templateType === 'comparison_less') {
+    // 倍數比較題：{num1}的{larger}倍比{num1}的{smaller}倍多/少多少
     // num2 = larger - smaller，答案 = num1 × num2
     num2 = Math.floor(Math.random() * 8) + 2; // 差值為 2-9
     // 生成 smaller (2 到 9-num2，確保 larger <= 9)
@@ -41,6 +41,13 @@ export const generateNarrativeQuestion = (
       .replace(/{num1}/g, String(num1))
       .replace(/{larger}/g, String(larger))
       .replace(/{smaller}/g, String(smaller));
+  } else if (templateType === 'double') {
+    // 求兩倍題：{num1}的2倍是多少
+    // num2 固定為 2，答案 = num1 × 2
+    num2 = 2;
+
+    narrative = template.template
+      .replace(/{num1}/g, String(num1));
   } else if (templateType === 'combination') {
     // 相同數量合併題：多個相同數量合併
     // num2 由模板指定（fixedNum2），答案 = num1 × num2
