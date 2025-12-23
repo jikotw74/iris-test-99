@@ -19,11 +19,13 @@ export const generateNarrativeQuestion = (
   categories?: string[]
 ): NarrativeQuestion => {
   const firstNumberPool = allowedTables.length ? allowedTables : [...MULTIPLICATION_TABLES];
-  const num1 = firstNumberPool[Math.floor(Math.random() * firstNumberPool.length)];
 
   // 獲取隨機模板
   const template = getRandomTemplate(categories);
   const templateType = template.type || 'standard';
+
+  // 如果模板有固定的 num1，則使用固定值；否則從題庫池隨機選擇
+  const num1 = template.fixedNum1 ?? firstNumberPool[Math.floor(Math.random() * firstNumberPool.length)];
 
   let num2: number;
   let narrative: string;
