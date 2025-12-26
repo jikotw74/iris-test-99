@@ -20,6 +20,7 @@ export interface NarrativeTemplate {
   unit: string;
   category: string;
   type?: NarrativeTemplateType; // 預設為 'standard'
+  fixedNum1?: number; // 用於固定 num1 值（例如：一週=7天）
   fixedNum2?: number; // 用於 combination 題型，指定固定的 num2 值（例如：兩人=2, 三人=3）
 }
 
@@ -769,12 +770,6 @@ export const NARRATIVE_TEMPLATES: NarrativeTemplate[] = [
     category: '數學概念',
   },
   {
-    id: 118,
-    template: '一打鉛筆有{num1}枝，{num2}打鉛筆有幾枝？',
-    unit: '枝',
-    category: '數學概念',
-  },
-  {
     id: 119,
     template: '每層樓有{num1}階樓梯，爬了{num2}層樓共爬幾階？',
     unit: '階',
@@ -906,12 +901,6 @@ export const NARRATIVE_TEMPLATES: NarrativeTemplate[] = [
 
   // 倍數情境變化題
   {
-    id: 136,
-    template: '一打有{num1}個，{num2}打共有幾個？',
-    unit: '個',
-    category: '數學概念',
-  },
-  {
     id: 137,
     template: '每包有{num1}片餅乾，買了{num2}包，共有幾片餅乾？',
     unit: '片',
@@ -931,9 +920,10 @@ export const NARRATIVE_TEMPLATES: NarrativeTemplate[] = [
   },
   {
     id: 140,
-    template: '一週有{num1}天，{num2}週共有幾天？',
+    template: '一週有7天，{num2}週共有幾天？',
     unit: '天',
     category: '數學概念',
+    fixedNum1: 7,
   },
 
   // 更多倍數比較情境
